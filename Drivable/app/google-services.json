@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "401301013978",
+    "project_id": "drivable-46a35",
+    "storage_bucket": "drivable-46a35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401301013978:android:bddd64d159c1d45b37ace3",
+        "android_client_info": {
+          "package_name": "com.example.drivable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401301013978-95jqmlc0jv8blent31i1evrqvmgnrsuv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUaNYK8fSJdbePxiFsbBLRMmklR62pvRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401301013978-95jqmlc0jv8blent31i1evrqvmgnrsuv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

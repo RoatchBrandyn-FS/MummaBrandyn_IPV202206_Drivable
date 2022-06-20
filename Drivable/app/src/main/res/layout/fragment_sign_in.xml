@@ -44,7 +44,8 @@
             android:layout_marginBottom="16dp"
             android:textSize="16sp"
             android:paddingEnd="8dp"
-            android:paddingStart="8dp"/>
+            android:paddingStart="8dp"
+            android:inputType="textEmailAddress"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +65,8 @@
             android:layout_marginBottom="8dp"
             android:textSize="16sp"
             android:paddingEnd="8dp"
-            android:paddingStart="8dp"/>
+            android:paddingStart="8dp"
+            android:inputType="textPassword"/>
 
         <TextView
             android:layout_width="match_parent"
