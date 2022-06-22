@@ -36,7 +36,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface SignInFragmentListener{
-        ArrayList<Account> getAccounts();
+        void signIn(String email, String password, Context context);
     }
 
     @Override
@@ -97,7 +97,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
     private void validateSignIn(String emailInput, String passwordInput, EditText passwordET){
 
-        ArrayList<Account> accounts = signInFragmentListener.getAccounts();
+        signInFragmentListener.signIn(emailInput, passwordInput, getContext());
+
+        /*ArrayList<Account> accounts = signInFragmentListener.getAccounts();
         Account confirmedAccount = null;
 
         for(Account acnt: accounts){
@@ -120,7 +122,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                 ToastUtil.testResults(getContext());
             }
 
-        }
+        }*/
 
     }
 

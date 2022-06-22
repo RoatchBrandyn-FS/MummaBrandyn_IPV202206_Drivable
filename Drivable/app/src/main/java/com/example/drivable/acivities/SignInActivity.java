@@ -3,6 +3,7 @@ package com.example.drivable.acivities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,6 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,6 +30,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
 
     private final String TAG = "SignInActivity.TAG";
     ArrayList<Account> accounts = new ArrayList<>();
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
 
 
         if(NetworkUtil.isConnected(this)){
-            fetchFirebaseAccounts();
+            //fetchFirebaseAccounts();
         }
         else{
             ToastUtil.networkError(this);
@@ -46,37 +51,31 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
                 .commit();
     }
 
-    private void fetchFirebaseAccounts(){
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        Log.i(TAG, "fetchRooms: Should be loading account data");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection(FirebaseUtils.COLLECTION_ACCOUNTS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            Log.i(TAG, "onComplete: Accounts Count = " + task.getResult().size());
-
-                            for(QueryDocumentSnapshot accountDoc : task.getResult()){
-                                String email = accountDoc.getString(FirebaseUtils.ACCOUNTS_FIELD_EMAIL);
-                                String password = accountDoc.getString(FirebaseUtils.ACCOUNTS_FIELD_PASSWORD);
-                                String docID = accountDoc.getId();
-                                Log.i(TAG, "onComplete: Email = " + email);
-
-                                Account newAccount = new Account(docID, email, password);
-                                accounts.add(newAccount);
-                            }
-
-                        }
-                        else if (task.isCanceled()){
-                            Log.i(TAG, "onComplete: Accounts didn't load from Firebase correctly");
-                        }
-                    }
-                });
     }
 
     @Override
-    public ArrayList<Account> getAccounts() {
-        return accounts;
+    public void signIn(String email, String password, Context context) {
+
+        Log.i(TAG, "signIn: Email = " + email + ", password = " + password);
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                ToastUtil.testResults(context);
+                Log.i(TAG, "onSuccess: User Email = " + mAuth.getUid());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: Login Failed");
+                Log.i(TAG, "onFailure: Error: " + e);
+            }
+        });
+        
     }
 }
