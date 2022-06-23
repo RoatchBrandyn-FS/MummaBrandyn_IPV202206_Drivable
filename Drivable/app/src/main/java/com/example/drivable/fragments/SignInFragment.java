@@ -1,6 +1,7 @@
 package com.example.drivable.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
+import com.example.drivable.acivities.SignUpActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.NetworkUtil;
@@ -61,6 +63,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         //set buttons to click listeners
         Button signInBtn = getActivity().findViewById(R.id.sign_in_btn_sign_in);
         signInBtn.setOnClickListener(this);
+        Button signUpBtn = getActivity().findViewById(R.id.sign_in_btn_signup);
+        signUpBtn.setOnClickListener(this);
+
     }
 
     @Override
@@ -90,6 +95,13 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
             }
 
+
+        }
+        else if (view.getId() == R.id.sign_in_btn_signup){
+
+            Intent signUpIntent = new Intent(getContext(), SignUpActivity.class);
+            signUpIntent.setAction(Intent.ACTION_RUN);
+            startActivity(signUpIntent);
 
         }
 

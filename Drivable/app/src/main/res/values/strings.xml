@@ -6,4 +6,12 @@
     <string name="string_password">Password</string>
     <string name="string_email">Email</string>
     <string name="string_forgot_password">Forgot Password?</string>
+    <string name="title_new_account">New Account</string>
+    <string name="string_company">Company</string>
+    <string name="string_image_hint">CHOOSE IMAGE</string>
+    <string name="string_company_acronym">Company Acronym</string>
+    <string name="string_first_name">First Name</string>
+    <string name="string_last_name">Last Name</string>
+    <string name="string_image">Image</string>
+    <string name="string_confirm_password">Confirm Password</string>
 </resources>
