@@ -14,4 +14,9 @@
     <string name="string_last_name">Last Name</string>
     <string name="string_image">Image</string>
     <string name="string_confirm_password">Confirm Password</string>
+    <string name="sample_number">##</string>
+    <string name="string_total">Total</string>
+    <string name="string_active">Active</string>
+    <string name="string_inactive">Inactive</string>
+    <string name="btn_title_fleet">My Fleet</string>
 </resources>

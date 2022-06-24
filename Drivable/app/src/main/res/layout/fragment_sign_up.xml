@@ -7,11 +7,13 @@
 
 
     <ImageView
+        android:id="@+id/signup_iv_main"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/image_placeholder"
         android:layout_gravity="center"
-        android:layout_marginTop="32dp"/>
+        android:layout_marginTop="32dp"
+        android:tag="0"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -89,7 +91,8 @@
                 android:id="@+id/signup_et_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/string_company"/>
+                android:hint="@string/string_company"
+                android:inputType="text"/>
 
             <TextView
                 android:layout_width="match_parent"
