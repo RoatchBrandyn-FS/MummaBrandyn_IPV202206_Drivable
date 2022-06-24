@@ -19,4 +19,11 @@
     <string name="string_active">Active</string>
     <string name="string_inactive">Inactive</string>
     <string name="btn_title_fleet">My Fleet</string>
+    <string name="title_fleet_view">Fleet Status</string>
+    <string name="title_btn_update_email">Update Email</string>
+    <string name="title_btn_update_password">Update Password</string>
+    <string name="title_tv_owner">Owner:</string>
+    <string name="title_tv_email">Email:</string>
+    <string name="string_search">Search</string>
+    <string name="sample_vin">#################</string>
 </resources>
