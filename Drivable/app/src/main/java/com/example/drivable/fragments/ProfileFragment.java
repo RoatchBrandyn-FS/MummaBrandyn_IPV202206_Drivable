@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
 import com.example.drivable.activities.UpdateEmailActivity;
+import com.example.drivable.activities.UpdatePasswordActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -102,6 +103,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         else if (view.getId() == R.id.profile_btn_update_password){
             //Update Password
 
+            Intent updatePasswordIntent = new Intent(getContext(), UpdatePasswordActivity.class);
+            updatePasswordIntent.setAction(Intent.ACTION_RUN);
+
+            startActivity(updatePasswordIntent);
         }
     }
 

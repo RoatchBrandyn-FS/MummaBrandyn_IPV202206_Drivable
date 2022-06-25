@@ -65,6 +65,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.UpdatePasswordActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

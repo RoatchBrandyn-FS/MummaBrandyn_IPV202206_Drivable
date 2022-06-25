@@ -32,4 +32,7 @@
     <string name="btn_update">Update</string>
     <string name="string_new_email">New Email</string>
     <string name="string_original_email">Original Email</string>
+    <string name="title_update_password">Update Password</string>
+    <string name="string_original_password">Original Password</string>
+    <string name="string_new_password">New Password</string>
 </resources>

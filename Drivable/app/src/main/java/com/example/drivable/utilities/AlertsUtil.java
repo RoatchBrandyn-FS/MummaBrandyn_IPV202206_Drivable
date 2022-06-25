@@ -227,4 +227,21 @@ public class AlertsUtil {
 
     }
 
+    public static void emptyPasswordsError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Field(s) Empty");
+        builder.setMessage("Please fill in all needed information to Update Password.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
 }
