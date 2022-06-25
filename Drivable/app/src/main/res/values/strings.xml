@@ -26,4 +26,5 @@
     <string name="title_tv_email">Email:</string>
     <string name="string_search">Search</string>
     <string name="sample_vin">#################</string>
+    <string name="menu_title_profile">Profile</string>
 </resources>

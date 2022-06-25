@@ -19,4 +19,11 @@ public class ToastUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
+    public static void accountCreated(Context context){
+
+        String text = "Account Created";
+
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
 }

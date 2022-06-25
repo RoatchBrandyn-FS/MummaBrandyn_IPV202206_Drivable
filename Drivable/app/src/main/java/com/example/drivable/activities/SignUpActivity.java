@@ -1,4 +1,4 @@
-package com.example.drivable.acivities;
+package com.example.drivable.activities;
 
 import android.os.Bundle;
 
@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drivable.R;
-import com.example.drivable.fragments.SignInFragment;
 import com.example.drivable.fragments.SignUpFragment;
 
 public class SignUpActivity extends AppCompatActivity {

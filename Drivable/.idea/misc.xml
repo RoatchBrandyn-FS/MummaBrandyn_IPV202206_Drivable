@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.31126861572265624" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25282491048177086" />
         <entry key="app/src/main/res/layout/fragment_vehicle_list.xml" value="0.19015045166015626" />
+        <entry key="app/src/main/res/menu/menu_dashboard.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/xml/provider_paths.xml" value="0.1" />
       </map>
     </option>

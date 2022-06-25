@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
@@ -193,14 +195,21 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     private void signupUser(String company, String acronym, String firstName, String lastName, String email, String password, ImageView mainImage){
 
+        progressbarOn();
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+                progressbarOff();
+                clearPasswords();
+
                 Log.i(TAG, "onFailure: " + e);
                 if(e instanceof FirebaseAuthException){
+
                     String errorCode = ((FirebaseAuthException) e).getErrorCode();
                     Log.i(TAG, "onFailure: " + errorCode);
 
@@ -224,6 +233,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 else {
                     Log.i(TAG, "onComplete: User Not Created");
                     Log.i(TAG, "onComplete: " + task.getException());
+                    clearPasswords();
 
                 }
             }
@@ -252,6 +262,10 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+                progressbarOff();
+                clearPasswords();
+
                 Log.i(TAG, "onFailure: Image no uploaded correctly");
                 Log.i(TAG, "onFailure: Error: " + e.getLocalizedMessage());
             }
@@ -282,18 +296,54 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         db.collection(FirebaseUtils.COLLECTION_ACCOUNTS).add(newAccount).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+
+                progressbarOff();
+                ToastUtil.accountCreated(getContext());
+
                 Log.i(TAG, "onSuccess: Doc added with id = " + documentReference.getId());
+                getActivity().finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 if(e instanceof FirebaseFirestoreException){
+
+                    progressbarOff();
+                    clearPasswords();
+
                     Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
                 }
 
             }
         });
 
+    }
+
+    private void progressbarOn(){
+        RelativeLayout progressbarView = getActivity().findViewById(R.id.signup_progressbar_view);
+        ProgressBar progressBar = getActivity().findViewById(R.id.signup_progressbar);
+
+        progressbarView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        progressBar.setActivated(true);
+    }
+
+    private void progressbarOff(){
+        RelativeLayout progressbarView = getActivity().findViewById(R.id.signup_progressbar_view);
+        ProgressBar progressBar = getActivity().findViewById(R.id.signup_progressbar);
+
+        progressBar.setActivated(false);
+        progressbarView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void clearPasswords(){
+        EditText passwordET = getActivity().findViewById(R.id.signup_et_password);
+        EditText confirmPasswordET = getActivity().findViewById(R.id.signup_et_confirm_password);
+
+        passwordET.setText("");
+        confirmPasswordET.setText("");
     }
 
     private void checkCameraPermissions(){

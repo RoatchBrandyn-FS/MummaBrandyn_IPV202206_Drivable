@@ -13,18 +13,22 @@
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/dashboard_tv_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_text"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:maxLines="1"/>
 
         <TextView
+            android:id="@+id/dashboard_tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_text"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:maxLines="1"/>
 
     </LinearLayout>
 
@@ -83,7 +87,8 @@
                 android:textSize="30sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:maxLines="1"/>
 
         </LinearLayout>
 
@@ -115,7 +120,8 @@
                     android:textSize="30sp"
                     android:textColor="@color/green"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
@@ -142,7 +148,8 @@
                     android:textSize="30sp"
                     android:textColor="@color/red"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 

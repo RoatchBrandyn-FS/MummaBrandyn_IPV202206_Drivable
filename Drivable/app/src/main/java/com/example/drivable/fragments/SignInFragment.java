@@ -14,14 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
-import com.example.drivable.acivities.SignUpActivity;
-import com.example.drivable.data_objects.Account;
+import com.example.drivable.activities.SignUpActivity;
 import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.NetworkUtil;
 import com.example.drivable.utilities.ToastUtil;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class SignInFragment extends Fragment implements View.OnClickListener {
 

@@ -18,7 +18,7 @@
         android:theme="@style/Theme.Drivable"
         tools:targetApi="31">
         <activity
-            android:name=".acivities.SignInActivity"
+            android:name=".activities.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".acivities.SignUpActivity"
+        <activity android:name=".activities.SignUpActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.DashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
