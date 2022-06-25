@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,12 +28,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
 import com.example.drivable.utilities.AlertsUtil;
-import com.example.drivable.utilities.FirebaseUtils;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.ToastUtil;
 import com.example.drivable.utilities.ValidationUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,7 +41,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -54,10 +51,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
@@ -245,8 +240,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         StorageReference storageRef = storage.getReference();
 
         // create ref for image
-        StorageReference accountImageRef = storageRef.child(FirebaseUtils.STORAGE_ACCOUNTS + userID + "/" + FirebaseUtils.STORAGE_IMAGES
-                + FirebaseUtils.STORAGE_ACCOUNT_IMAGE);
+        StorageReference accountImageRef = storageRef.child(FirebaseUtil.STORAGE_ACCOUNTS + userID + "/" + FirebaseUtil.STORAGE_IMAGES
+                + FirebaseUtil.STORAGE_ACCOUNT_IMAGE);
 
         //set image bitmap
         mainImage.setDrawingCacheEnabled(true);
@@ -284,14 +279,14 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         //set hash map
         Map<String, Object> newAccount = new HashMap<>();
-        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_USERID, userID);
-        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF, accountImageRef);
-        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_COMPANY, company);
-        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_COMPANY_ACRONYM, acronym);
-        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_FIRST_NAME, firstName);
-        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_LAST_NAME, lastName);
+        newAccount.put(FirebaseUtil.ACCOUNTS_FIELD_USERID, userID);
+        newAccount.put(FirebaseUtil.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF, accountImageRef);
+        newAccount.put(FirebaseUtil.ACCOUNTS_FIELD_COMPANY, company);
+        newAccount.put(FirebaseUtil.ACCOUNTS_FIELD_COMPANY_ACRONYM, acronym);
+        newAccount.put(FirebaseUtil.ACCOUNTS_FIELD_FIRST_NAME, firstName);
+        newAccount.put(FirebaseUtil.ACCOUNTS_FIELD_LAST_NAME, lastName);
 
-        db.collection(FirebaseUtils.COLLECTION_ACCOUNTS).add(newAccount).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).add(newAccount).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
 

@@ -28,4 +28,8 @@
     <string name="sample_vin">#################</string>
     <string name="menu_title_profile">Profile</string>
     <string name="menu_title_edit_profile">Edit Profile</string>
+    <string name="title_update_email">Update Email</string>
+    <string name="btn_update">Update</string>
+    <string name="string_new_email">New Email</string>
+    <string name="string_original_email">Original Email</string>
 </resources>

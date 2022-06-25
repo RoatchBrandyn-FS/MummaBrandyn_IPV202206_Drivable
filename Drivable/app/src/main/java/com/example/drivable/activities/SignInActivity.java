@@ -11,7 +11,7 @@ import android.util.Log;
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.fragments.SignInFragment;
-import com.example.drivable.utilities.FirebaseUtils;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
 import com.example.drivable.utilities.NetworkUtil;
 import com.example.drivable.utilities.ToastUtil;
@@ -22,8 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 public class SignInActivity extends AppCompatActivity implements SignInFragment.SignInFragmentListener {
 
@@ -39,7 +37,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
             ToastUtil.networkError(this);
         }
 
-        FirebaseUtils.mAuth = FirebaseAuth.getInstance();
+        FirebaseUtil.mAuth = FirebaseAuth.getInstance();
 
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true).replace(R.id.fragment_container, SignInFragment.newInstance())
@@ -49,7 +47,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
     @Override
     protected void onStart() {
         super.onStart();
-        if(FirebaseUtils.mAuth.getCurrentUser() != null){
+        if(FirebaseUtil.mAuth.getCurrentUser() != null){
             Log.i(TAG, "onStart: User already logged in");
         }
         
@@ -65,11 +63,11 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
 
             Log.i(TAG, "signIn: Email = " + email + ", password = " + password);
 
-            FirebaseUtils.mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            FirebaseUtil.mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
 
-                    Log.i(TAG, "onSuccess: User Email = " + FirebaseUtils.mAuth.getUid());
+                    Log.i(TAG, "onSuccess: User Email = " + FirebaseUtil.mAuth.getUid());
 
                     loadAccount(authResult.getUser().getUid(), context);
 
@@ -84,7 +82,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
                 public void onFailure(@NonNull Exception e) {
                     Log.i(TAG, "onFailure: Login Failed");
                     Log.i(TAG, "onFailure: Error: " + e);
-                    Log.i(TAG, "onFailure: " + FirebaseUtils.mAuth.getUid());
+                    Log.i(TAG, "onFailure: " + FirebaseUtil.mAuth.getUid());
                 }
             });
         }
@@ -97,7 +95,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
         final Account[] account = {null};
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(FirebaseUtils.COLLECTION_ACCOUNTS).get().addOnFailureListener(new OnFailureListener() {
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).get().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("FirebaseUtils.TAG", "onFailure: ");
@@ -106,14 +104,14 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                    String _userID = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_USERID);
+                    String _userID = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_USERID);
 
                     if(_userID.equals(userID)){
-                        String _accountImageRef = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF);
-                        String _company = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_COMPANY);
-                        String _companyAcronym = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_COMPANY_ACRONYM);
-                        String _firstName = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_FIRST_NAME);
-                        String _lastName = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_LAST_NAME);
+                        String _accountImageRef = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF);
+                        String _company = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_COMPANY);
+                        String _companyAcronym = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_COMPANY_ACRONYM);
+                        String _firstName = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_FIRST_NAME);
+                        String _lastName = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_LAST_NAME);
 
                         account[0] = new Account(doc.getId(), _accountImageRef, _company, _companyAcronym, _firstName, _lastName);
                     }

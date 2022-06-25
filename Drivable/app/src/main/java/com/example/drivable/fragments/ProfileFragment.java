@@ -1,12 +1,17 @@
 package com.example.drivable.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,15 +20,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
+import com.example.drivable.activities.UpdateEmailActivity;
 import com.example.drivable.data_objects.Account;
-import com.example.drivable.utilities.FirebaseUtils;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private final String TAG = "ProfileFragment.TAG";
     private ProfileFragmentListener profileFragmentListener;
@@ -60,21 +66,59 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         //get elements
         Account account = profileFragmentListener.getAccount();
         TextView companyTV = getActivity().findViewById(R.id.profile_tv_company);
         TextView acronymTV = getActivity().findViewById(R.id.profile_tv_acronym);
         TextView ownerTV = getActivity().findViewById(R.id.profile_tv_owner);
         TextView emailTV = getActivity().findViewById(R.id.profile_tv_email);
+        Button updateEmailBtn = getActivity().findViewById(R.id.profile_btn_update_email);
+        Button updatePasswordBtn = getActivity().findViewById(R.id.profile_btn_update_password);
 
         //set elements with data
         loadImage(account.getAccountImageRef());
         companyTV.setText(account.getCompany());
         acronymTV.setText(account.getCompanyAcronym());
         ownerTV.setText(account.getName());
-        emailTV.setText(FirebaseUtils.mAuth.getCurrentUser().getEmail());
+        emailTV.setText(FirebaseUtil.mAuth.getCurrentUser().getEmail());
+        updateEmailBtn.setOnClickListener(this);
+        updatePasswordBtn.setOnClickListener(this);
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.profile_btn_update_email){
+            //Update Email
+
+            Intent updateEmailIntent = new Intent(getContext(), UpdateEmailActivity.class);
+            updateEmailIntent.setAction(Intent.ACTION_RUN);
+
+            startActivity(updateEmailIntent);
+        }
+        else if (view.getId() == R.id.profile_btn_update_password){
+            //Update Password
+
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_profile, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getTitle() == "Edit Profile"){
+            Log.i(TAG, "onOptionsItemSelected: Should edit profile EXCEPT email and password");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadImage(String imageRef){

@@ -12,11 +12,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class FirebaseUtils {
+public class FirebaseUtil {
 
-    //Firebase Auth and Account
+    //Firebase Auth
     public static FirebaseAuth mAuth = null;
-    public static Account userAccount;
 
 
     //Firebase Collections

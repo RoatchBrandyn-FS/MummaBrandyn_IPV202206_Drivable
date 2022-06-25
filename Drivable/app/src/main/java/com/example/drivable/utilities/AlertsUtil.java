@@ -23,7 +23,7 @@ public class AlertsUtil {
 
     }
 
-    public static void emailMatchError(Context context){
+    public static void emailValidateError(Context context){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Account Not Found");
@@ -147,6 +147,74 @@ public class AlertsUtil {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Email in Use");
         builder.setMessage("Email in use, try going to Forgot Password? to retrieve the password");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void emptyEmailsError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Field(s) Empty");
+        builder.setMessage("Please fill in all needed information to Update Email.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void emailMatchError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Original Email Doesn't Match");
+        builder.setMessage("Please make sure you are in the right account, or double check the Email for the account before updating.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void updateEmailMatchError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Email Match");
+        builder.setMessage("Your New Email Matches the Original Email. Please use different email to update.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void updateEmailDuplicateError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Email in Use");
+        builder.setMessage("Email in use, try a different email or login with that email.");
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
