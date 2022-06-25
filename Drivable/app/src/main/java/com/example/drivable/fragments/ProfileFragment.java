@@ -20,10 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
+import com.example.drivable.activities.EditProfileActivity;
 import com.example.drivable.activities.UpdateEmailActivity;
 import com.example.drivable.activities.UpdatePasswordActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.utilities.FirebaseUtil;
+import com.example.drivable.utilities.IntentExtrasUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -119,8 +121,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if(item.getTitle() == "Edit Profile"){
+        if(item.getTitle().equals("Edit Profile")){
             Log.i(TAG, "onOptionsItemSelected: Should edit profile EXCEPT email and password");
+
+            Intent editProfileIntent = new Intent(getContext(), EditProfileActivity.class);
+            editProfileIntent.setAction(Intent.ACTION_RUN);
+            editProfileIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, profileFragmentListener.getAccount());
+
+            startActivity(editProfileIntent);
         }
 
         return super.onOptionsItemSelected(item);

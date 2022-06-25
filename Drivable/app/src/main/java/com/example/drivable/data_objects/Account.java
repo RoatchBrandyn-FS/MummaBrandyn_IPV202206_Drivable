@@ -48,6 +48,14 @@ public class Account implements Serializable {
         return firstName + " " + lastName;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
     private Uri getImageUri(String _accountImageRef){
         final Uri[] accountImageUri = {null};
 
