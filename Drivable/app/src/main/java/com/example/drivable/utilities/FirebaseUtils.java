@@ -14,41 +14,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class FirebaseUtils {
 
-    //Firebase Auth
+    //Firebase Auth and Account
     public static FirebaseAuth mAuth = null;
+    public static Account userAccount;
 
-    //Firebase Firestore Loaders
-    public static Account loadAccount(String userID){
-
-        final Account[] account = {null};
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(COLLECTION_ACCOUNTS).get().addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("FirebaseUtils.TAG", "onFailure: ");
-            }
-        }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                    String _userID = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_USERID);
-
-                    if(_userID.equals(userID)){
-                        String _accountImageRef = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF);
-                        String _company = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_COMPANY);
-                        String _companyAcronym = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_COMPANY_ACRONYM);
-                        String _firstName = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_FIRST_NAME);
-                        String _lastName = doc.getString(FirebaseUtils.ACCOUNTS_FIELD_LAST_NAME);
-
-                        account[0] = new Account(doc.getId(), _accountImageRef, _company, _companyAcronym, _firstName, _lastName);
-                    }
-                }
-            }
-        });
-
-        return account[0];
-    }
 
     //Firebase Collections
     public static final String COLLECTION_ACCOUNTS = "accounts";

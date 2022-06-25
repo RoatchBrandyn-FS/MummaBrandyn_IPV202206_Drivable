@@ -114,8 +114,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             //cameraIcon
             Log.i(TAG, "onClick: Camera Icon Pressed");
 
-
-
             checkCameraPermissions();
         }
     }

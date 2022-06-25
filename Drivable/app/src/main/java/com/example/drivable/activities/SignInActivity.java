@@ -123,6 +123,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
                 dashboardIntent.setAction(Intent.ACTION_RUN);
                 dashboardIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 dashboardIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, account[0]);
+                Log.i(TAG, "onSuccess: Company = " + account[0].getCompany());
 
                 startActivity(dashboardIntent);
             }

@@ -12,7 +12,7 @@ public class Account implements Serializable {
 
     //starting test variables
     private final String docID;
-    private final Uri accountImageUri;
+    private final String accountImageRef;
     private final String company;
     private final String companyAcronym;
     private final String firstName;
@@ -21,7 +21,7 @@ public class Account implements Serializable {
 
     public Account (String _docID, String _accountImageRef, String _company, String _companyAcronym, String _firstName, String _lastName){
         docID = _docID;
-        accountImageUri = getImageUri(_accountImageRef);
+        accountImageRef = _accountImageRef;
         company = _company;
         companyAcronym = _companyAcronym;
         firstName = _firstName;
@@ -32,8 +32,8 @@ public class Account implements Serializable {
         return docID;
     }
 
-    public Uri getAccountImageUri() {
-        return accountImageUri;
+    public String getAccountImageRef() {
+        return accountImageRef;
     }
 
     public String getCompany() {

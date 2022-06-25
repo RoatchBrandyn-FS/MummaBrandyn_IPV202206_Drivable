@@ -51,6 +51,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardFra
 
     @Override
     public Account getAccount() {
+        Log.i(TAG, "getAccount: " + userAccount.getCompany());
         return userAccount;
     }
 }

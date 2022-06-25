@@ -1,6 +1,7 @@
 package com.example.drivable.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +17,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
+import com.example.drivable.activities.ProfileActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.utilities.DateUtil;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.drivable.utilities.IntentExtrasUtil;
 
 import org.w3c.dom.Text;
 
@@ -94,6 +96,12 @@ public class DashboardFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getTitle().equals("Profile")){
             Log.i(TAG, "onOptionsItemSelected: Should open Profile");
+
+            Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
+            profileIntent.setAction(Intent.ACTION_RUN);
+            profileIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, dashboardFragmentListener.getAccount());
+
+            startActivity(profileIntent);
         }
 
         return super.onOptionsItemSelected(item);

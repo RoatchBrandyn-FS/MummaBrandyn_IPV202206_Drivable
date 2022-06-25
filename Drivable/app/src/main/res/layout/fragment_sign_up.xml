@@ -114,7 +114,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_company_acronym"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="4"/>
 
                 <TextView
                     android:layout_width="match_parent"
