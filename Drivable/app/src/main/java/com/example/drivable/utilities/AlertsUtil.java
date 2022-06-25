@@ -125,4 +125,38 @@ public class AlertsUtil {
 
     }
 
+    public static void passwordMinError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Password Too Short");
+        builder.setMessage("For your safety, please make sure your password is at least 6 characters long");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void emailDuplicateError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Email in Use");
+        builder.setMessage("Email in use, try going to Forgot Password? to retrieve the password");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
 }

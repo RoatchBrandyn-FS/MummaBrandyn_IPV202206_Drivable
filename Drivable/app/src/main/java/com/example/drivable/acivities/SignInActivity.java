@@ -47,7 +47,11 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
     @Override
     protected void onStart() {
         super.onStart();
-
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null){
+            Log.i(TAG, "onStart: User already logged in");
+        }
+        
     }
 
     @Override
@@ -67,6 +71,7 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
             public void onFailure(@NonNull Exception e) {
                 Log.i(TAG, "onFailure: Login Failed");
                 Log.i(TAG, "onFailure: Error: " + e);
+                Log.i(TAG, "onFailure: " + mAuth.getUid());
             }
         });
         

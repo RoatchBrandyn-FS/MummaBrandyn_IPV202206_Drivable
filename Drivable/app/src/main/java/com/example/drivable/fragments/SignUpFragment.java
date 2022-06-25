@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,17 +32,30 @@ import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
 import com.example.drivable.utilities.AlertsUtil;
+import com.example.drivable.utilities.FirebaseUtils;
 import com.example.drivable.utilities.ToastUtil;
 import com.example.drivable.utilities.ValidationUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
@@ -108,7 +122,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         //set elements to check
         ImageView imageMain = getActivity().findViewById(R.id.signup_iv_main);
-        EditText compnayET = getActivity().findViewById(R.id.signup_et_company);
+        EditText companyET = getActivity().findViewById(R.id.signup_et_company);
         EditText companyAcronymET = getActivity().findViewById(R.id.signup_et_company_acronym);
         EditText firstNameET = getActivity().findViewById(R.id.signup_et_first_name);
         EditText lastNameET = getActivity().findViewById(R.id.signup_et_last_name);
@@ -122,7 +136,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         //image_placeholder tag = 0
         //Camera Photo = 1
         //CHOOSE IMAGE = 2
-        String companyString = compnayET.getText().toString().trim();
+        String companyString = companyET.getText().toString().trim();
         String companyAcronymString = companyAcronymET.getText().toString().trim();
         String firstNameString = firstNameET.getText().toString().trim();
         String lastNameString = lastNameET.getText().toString().trim();
@@ -157,8 +171,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                         AlertsUtil.passwordMatchError(getContext());
                     }
                     else{
-                        //Everything validated and can save information
-                        signupUser(companyString, companyAcronymString, firstNameString, lastNameString, emailString, passwordString, imageMain);
+                        if(passwordString.length() < 6){
+                            AlertsUtil.passwordMinError(getContext());
+                            passwordET.setText("");
+                            confirmPasswordET.setText("");
+                        }
+                        else{
+                            signupUser(companyString, companyAcronymString, firstNameString, lastNameString, emailString, passwordString, imageMain);
+                        }
+
                     }
 
                 }
@@ -179,6 +200,16 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i(TAG, "onFailure: " + e);
+                if(e instanceof FirebaseAuthException){
+                    String errorCode = ((FirebaseAuthException) e).getErrorCode();
+                    Log.i(TAG, "onFailure: " + errorCode);
+
+                    switch (errorCode){
+                        case "ERROR_EMAIL_ALREADY_IN_USE":
+                            AlertsUtil.emailDuplicateError(getContext());
+                    }
+
+                }
             }
         }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -188,11 +219,78 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     FirebaseUser user = mAuth.getCurrentUser();
 
                     Log.i(TAG, "onComplete: UID = " + user.getUid());
+                    saveAccountImage(company, acronym, firstName, lastName, mainImage, user.getUid());
                 }
                 else {
                     Log.i(TAG, "onComplete: User Not Created");
-                    Log.i(TAG, "onComplete: " + task.getException().getLocalizedMessage());
+                    Log.i(TAG, "onComplete: " + task.getException());
+
                 }
+            }
+        });
+
+    }
+
+    private void saveAccountImage(String company, String acronym, String firstName, String lastName, ImageView mainImage, String userID){
+        // get storage reference
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // create ref for image
+        StorageReference accountImageRef = storageRef.child(FirebaseUtils.STORAGE_ACCOUNTS + userID + "/" + FirebaseUtils.STORAGE_IMAGES
+                + FirebaseUtils.STORAGE_ACCOUNT_IMAGE);
+
+        //set image bitmap
+        mainImage.setDrawingCacheEnabled(true);
+        mainImage.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) mainImage.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = accountImageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: Image no uploaded correctly");
+                Log.i(TAG, "onFailure: Error: " + e.getLocalizedMessage());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.i(TAG, "onSuccess: Image upload successful!");
+                Log.i(TAG, "onSuccess: Image Path = " + taskSnapshot.getStorage().getPath());
+                accountSetup(company, acronym, firstName, lastName, userID, taskSnapshot.getStorage().getPath());
+            }
+        });
+
+    }
+
+    private void accountSetup(String company, String acronym, String firstName, String lastName, String userID, String accountImageRef){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //set hash map
+        Map<String, Object> newAccount = new HashMap<>();
+        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_USERID, userID);
+        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF, accountImageRef);
+        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_COMPANY, company);
+        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_COMPANY_ACRONYM, acronym);
+        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_FIRST_NAME, firstName);
+        newAccount.put(FirebaseUtils.ACCOUNTS_FIELD_LAST_NAME, lastName);
+
+        db.collection(FirebaseUtils.COLLECTION_ACCOUNTS).add(newAccount).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.i(TAG, "onSuccess: Doc added with id = " + documentReference.getId());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if(e instanceof FirebaseFirestoreException){
+                    Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                }
+
             }
         });
 
