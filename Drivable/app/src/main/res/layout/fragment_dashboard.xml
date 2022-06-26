@@ -156,6 +156,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/dashboard_btn_my_fleet"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="center"

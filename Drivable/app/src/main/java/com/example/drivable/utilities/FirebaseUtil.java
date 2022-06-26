@@ -20,6 +20,7 @@ public class FirebaseUtil {
 
     //Firebase Collections
     public static final String COLLECTION_ACCOUNTS = "accounts";
+    public static final String COLLECTION_VEHICLES = "vehicles";
 
     //Accounts collections field keys
     public static final String ACCOUNTS_FIELD_USERID = "user_id";
@@ -28,6 +29,11 @@ public class FirebaseUtil {
     public static final String ACCOUNTS_FIELD_COMPANY_ACRONYM = "company_acronym";
     public static final String ACCOUNTS_FIELD_FIRST_NAME = "first_name";
     public static final String ACCOUNTS_FIELD_LAST_NAME = "last_name";
+
+    //Vehicles collections field keys
+    public static final String VEHICLES_FIELD_NAME = "name";
+    public static final String VEHICLES_FIELD_VIN_NUM = "vin_num";
+    public static final String VEHICLES_FIELD_MAKE = "make";
 
     //FirebaseStorage refs
     public static final String STORAGE_ACCOUNTS = "accounts/";

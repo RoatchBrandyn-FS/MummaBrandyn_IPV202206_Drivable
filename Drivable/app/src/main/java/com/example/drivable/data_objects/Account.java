@@ -7,6 +7,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Account implements Serializable {
 
@@ -17,6 +18,7 @@ public class Account implements Serializable {
     private final String companyAcronym;
     private final String firstName;
     private final String lastName;
+    private ArrayList<Vehicle> vehicles = new ArrayList<>();
     // *** MORE VARIABLES TO BE ADDED AFTER POC ***
 
     public Account (String _docID, String _accountImageRef, String _company, String _companyAcronym, String _firstName, String _lastName){
@@ -56,20 +58,11 @@ public class Account implements Serializable {
         return lastName;
     }
 
-    private Uri getImageUri(String _accountImageRef){
-        final Uri[] accountImageUri = {null};
+    public ArrayList<Vehicle> getVehicles(){
+        return vehicles;
+    }
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-        StorageReference pathRef = storageRef.child(_accountImageRef);
-
-        pathRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                accountImageUri[0] = uri;
-            }
-        });
-
-        return accountImageUri[0];
+    public void updateVehicles(ArrayList<Vehicle> updatedVehicles){
+        vehicles = updatedVehicles;
     }
 }

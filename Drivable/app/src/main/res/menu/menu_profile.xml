@@ -7,5 +7,10 @@
         android:title="@string/menu_title_edit_profile"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/sign_out"
+        android:icon="@drawable/ic_baseline_logout_32"
+        android:title="@string/menu_title_sign_out"
+        app:showAsAction="ifRoom"/>
+
 
 </menu>

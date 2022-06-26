@@ -43,12 +43,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardFra
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
     public Account getAccount() {
         Log.i(TAG, "getAccount: " + userAccount.getCompany());
         return userAccount;

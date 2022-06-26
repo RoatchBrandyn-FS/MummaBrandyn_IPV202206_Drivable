@@ -19,14 +19,23 @@ import androidx.fragment.app.Fragment;
 import com.example.drivable.R;
 import com.example.drivable.activities.ProfileActivity;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.DateUtil;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements View.OnClickListener {
 
     private final String TAG = "DashboardFragment.TAG";
     private DashboardFragmentListener dashboardFragmentListener;
@@ -72,9 +81,6 @@ public class DashboardFragment extends Fragment {
         //get text views to be changed
         TextView companyTV = getActivity().findViewById(R.id.dashboard_tv_company);
         TextView dateTV = getActivity().findViewById(R.id.dashboard_tv_date);
-        TextView totalNumTV = getActivity().findViewById(R.id.dashboard_tv_total_num);
-        TextView activeNumTV = getActivity().findViewById(R.id.dashboard_tv_active_num);
-        TextView inactiveNumTV = getActivity().findViewById(R.id.dashboard_tv_inactive_num);
 
         //get current date
         String currentDate = DateUtil.setDateTime(new Date());
@@ -83,6 +89,8 @@ public class DashboardFragment extends Fragment {
         companyTV.setText(account.getCompany());
         dateTV.setText(currentDate);
 
+        //set vehicle totals
+        setVehicleTotals(account);
 
     }
 
@@ -105,5 +113,64 @@ public class DashboardFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if(view.getId() == R.id.dashboard_btn_my_fleet){
+
+            Intent fleetIntent = new Intent();
+
+        }
+
+    }
+
+    private void setVehicleTotals(Account account){
+
+        TextView totalNumTV = getActivity().findViewById(R.id.dashboard_tv_total_num);
+        TextView activeNumTV = getActivity().findViewById(R.id.dashboard_tv_active_num);
+        TextView inactiveNumTV = getActivity().findViewById(R.id.dashboard_tv_inactive_num);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(account.getDocID()).collection(FirebaseUtil.COLLECTION_VEHICLES).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                Log.i(TAG, "onSuccess: Vehicles Loaded Successfully");
+                //get values for vanTotals
+
+                ArrayList<Vehicle> _vehicles = new ArrayList<>();
+
+                //get values
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                    Log.i(TAG, "onComplete: doc id = " + doc.getId());
+
+                    String _name = doc.getString(FirebaseUtil.VEHICLES_FIELD_NAME);
+                    String _vinNum = doc.getString(FirebaseUtil.VEHICLES_FIELD_VIN_NUM);
+                    String _make = doc.getString(FirebaseUtil.VEHICLES_FIELD_MAKE);
+
+                    Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _make);
+                    _vehicles.add(newVehicle);
+                }
+
+                account.updateVehicles(_vehicles);
+
+                Log.i(TAG, "onSuccess: Vehicles List Size: " + account.getVehicles().size());
+                totalNumTV.setText(Integer.toString(account.getVehicles().size()));
+                activeNumTV.setText("0");
+                inactiveNumTV.setText("0");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(e instanceof FirebaseFirestoreException){
+                            Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                        }
+                    }
+                });
+
     }
 }

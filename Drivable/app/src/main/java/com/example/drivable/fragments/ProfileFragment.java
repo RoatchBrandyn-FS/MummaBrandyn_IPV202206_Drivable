@@ -21,11 +21,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
 import com.example.drivable.activities.EditProfileActivity;
+import com.example.drivable.activities.SignInActivity;
 import com.example.drivable.activities.UpdateEmailActivity;
 import com.example.drivable.activities.UpdatePasswordActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.example.drivable.utilities.ToastUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -129,6 +131,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             editProfileIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, profileFragmentListener.getAccount());
 
             startActivity(editProfileIntent);
+        }
+        else if (item.getTitle().equals("Sign Out")){
+            Intent signInIntent = new Intent(getContext(), SignInActivity.class);
+            signInIntent.setAction(Intent.ACTION_MAIN);
+            signInIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            FirebaseUtil.mAuth.signOut();
+            ToastUtil.accountSignedOut(getContext());
+            startActivity(signInIntent);
         }
 
         return super.onOptionsItemSelected(item);
