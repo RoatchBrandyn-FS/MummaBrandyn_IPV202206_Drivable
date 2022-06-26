@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_new_account"
+            android:text="@string/menu_title_edit_profile"
             android:textStyle="bold"
             android:textSize="25sp"
             android:textColor="@color/black"

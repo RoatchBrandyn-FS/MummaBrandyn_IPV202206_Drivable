@@ -244,4 +244,38 @@ public class AlertsUtil {
 
     }
 
+    public static void editProfileEmptyError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Field(s) Empty");
+        builder.setMessage("Please fill in all needed information to Edit Profile.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void editProfileNoChangeError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Profile Unchanged");
+        builder.setMessage("Nothing changed from Profile. If make sure at least one of the fields or image is changed to update Profile.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
 }
