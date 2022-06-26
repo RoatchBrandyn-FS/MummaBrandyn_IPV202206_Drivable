@@ -33,7 +33,12 @@ public class FirebaseUtil {
     //Vehicles collections field keys
     public static final String VEHICLES_FIELD_NAME = "name";
     public static final String VEHICLES_FIELD_VIN_NUM = "vin_num";
+    public static final String VEHICLES_FIELD_ODOMETER = "odometer";
+    public static final String VEHICLES_FIELD_IS_ACTIVE = "isActive";
+    public static final String VEHICLES_FIELD_YEAR = "year";
     public static final String VEHICLES_FIELD_MAKE = "make";
+    public static final String VEHICLES_FIELD_MODEL = "model";
+    public static final String VEHICLES_FIELD_DRIVE_TRAIN = "drive_train";
 
     //FirebaseStorage refs
     public static final String STORAGE_ACCOUNTS = "accounts/";

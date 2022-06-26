@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
+import com.example.drivable.activities.FleetActivity;
 import com.example.drivable.activities.ProfileActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.Vehicle;
@@ -92,6 +94,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         //set vehicle totals
         setVehicleTotals(account);
 
+        //set buttons
+        Button myFleetBtn = getActivity().findViewById(R.id.dashboard_btn_my_fleet);
+        myFleetBtn.setOnClickListener(this);
+
     }
 
     @Override
@@ -120,8 +126,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         if(view.getId() == R.id.dashboard_btn_my_fleet){
 
-            Intent fleetIntent = new Intent();
+            Intent fleetIntent = new Intent(getContext(), FleetActivity.class);
+            fleetIntent.setAction(Intent.ACTION_RUN);
+            fleetIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, dashboardFragmentListener.getAccount());
 
+            startActivity(fleetIntent);
         }
 
     }
@@ -149,9 +158,14 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                     String _name = doc.getString(FirebaseUtil.VEHICLES_FIELD_NAME);
                     String _vinNum = doc.getString(FirebaseUtil.VEHICLES_FIELD_VIN_NUM);
+                    String _odometer = doc.getString(FirebaseUtil.VEHICLES_FIELD_ODOMETER);
+                    boolean _isActive = doc.getBoolean(FirebaseUtil.VEHICLES_FIELD_IS_ACTIVE);
+                    String _year = doc.getString(FirebaseUtil.VEHICLES_FIELD_YEAR);
                     String _make = doc.getString(FirebaseUtil.VEHICLES_FIELD_MAKE);
+                    String _model = doc.getString(FirebaseUtil.VEHICLES_FIELD_MODEL);
+                    String _driveTrain = doc.getString(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN);
 
-                    Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _make);
+                    Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
                     _vehicles.add(newVehicle);
                 }
 

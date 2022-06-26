@@ -44,4 +44,12 @@
     <string name="string_original_password">Original Password</string>
     <string name="string_new_password">New Password</string>
     <string name="menu_title_sign_out">Sign Out</string>
+    <string name="empty_vehicles">No Vehicles Added</string>
+    <string name="fab_add">fab add</string>
+    <string name="title_status">Status:</string>
+    <string name="title_specs">Specs</string>
+    <string name="title_drivetrain">Drivetrain:</string>
+    <string name="title_model">Model:</string>
+    <string name="title_make">Make:</string>
+    <string name="title_year">Year:</string>
 </resources>

@@ -1,0 +1,142 @@
+[
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_ic_baseline_person_32.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/ic_baseline_person_32.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.drivable.app-main-32:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "com.example.drivable.app-pngs-25:/drawable-anydpi-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_fragment_vehicle_list.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/fragment_vehicle_list.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/xml_backup_rules.xml.flat",
+        "source": "com.example.drivable.app-main-32:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_activity_main.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_fragment_dashboard.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_fragment_sign_in.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/fragment_sign_in.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_rounded_corners_all_10_white.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/rounded_corners_all_10_white.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable-v24_mercedes.png.flat",
+        "source": "com.example.drivable.app-main-32:/drawable-v24/mercedes.png"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_rounded_corners_top_10_white.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/rounded_corners_top_10_white.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable-v24_image_placeholder.png.flat",
+        "source": "com.example.drivable.app-main-32:/drawable-v24/image_placeholder.png"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_ic_baseline_search_32.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/ic_baseline_search_32.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/menu_menu_dashboard.xml.flat",
+        "source": "com.example.drivable.app-main-32:/menu/menu_dashboard.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable-v24_logo.png.flat",
+        "source": "com.example.drivable.app-main-32:/drawable-v24/logo.png"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_ic_baseline_add_32.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/ic_baseline_add_32.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_ic_baseline_camera_alt_32.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/ic_baseline_camera_alt_32.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_fragment_profile.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_fragment_sign_up.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/fragment_sign_up.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/layout_base_vehicle_adapter.xml.flat",
+        "source": "com.example.drivable.app-main-32:/layout/base_vehicle_adapter.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable-v24_rounded_corners_all_2_white.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable-v24/rounded_corners_all_2_white.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/drawable_ic_baseline_directions_car_32.xml.flat",
+        "source": "com.example.drivable.app-main-32:/drawable/ic_baseline_directions_car_32.xml"
+    },
+    {
+        "merged": "com.example.drivable.app-merged_res-30:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.drivable.app-main-32:/mipmap-mdpi/ic_launcher.webp"
+    }
+]
