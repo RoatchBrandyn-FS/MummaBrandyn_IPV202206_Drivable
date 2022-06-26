@@ -1,19 +1,23 @@
 package com.example.drivable.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 
 import com.example.drivable.R;
+import com.example.drivable.activities.VehicleDetailsActivity;
 import com.example.drivable.adapters.VehicleAdapter;
 import com.example.drivable.data_objects.Vehicle;
+import com.example.drivable.utilities.IntentExtrasUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -59,6 +63,25 @@ public class FleetListFragment extends ListFragment {
 
         setFleetList();
 
+    }
+
+    @Override
+    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        ArrayList<Vehicle> vehicles = fleetListFragmentListener.getVehiclesList();
+        Collections.sort(vehicles, new Comparator<Vehicle>() {
+            @Override
+            public int compare(Vehicle v1, Vehicle v2) {
+                return v1.getName().compareTo(v2.getName());
+            }
+        });
+
+        Intent vehicleDetailsIntent = new Intent(getContext(), VehicleDetailsActivity.class);
+        vehicleDetailsIntent.setAction(Intent.ACTION_RUN);
+        vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, vehicles.get(position));
+
+        startActivity(vehicleDetailsIntent);
     }
 
     private void setFleetList(){

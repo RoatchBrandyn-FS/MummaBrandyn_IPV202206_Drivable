@@ -151,6 +151,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 //get values for vanTotals
 
                 ArrayList<Vehicle> _vehicles = new ArrayList<>();
+                ArrayList<Vehicle> activeVehicles = new ArrayList<>();
+                ArrayList<Vehicle> inactiveVehicles = new ArrayList<>();
 
                 //get values
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
@@ -167,14 +169,21 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                     Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
                     _vehicles.add(newVehicle);
+
+                    if(newVehicle.isActive()){
+                        activeVehicles.add(newVehicle);
+                    }
+                    else{
+                        inactiveVehicles.add(newVehicle);
+                    }
                 }
 
                 account.updateVehicles(_vehicles);
 
                 Log.i(TAG, "onSuccess: Vehicles List Size: " + account.getVehicles().size());
                 totalNumTV.setText(Integer.toString(account.getVehicles().size()));
-                activeNumTV.setText("0");
-                inactiveNumTV.setText("0");
+                activeNumTV.setText(Integer.toString(activeVehicles.size()));
+                inactiveNumTV.setText(Integer.toString(inactiveVehicles.size()));
 
             }
         }).addOnFailureListener(new OnFailureListener() {
