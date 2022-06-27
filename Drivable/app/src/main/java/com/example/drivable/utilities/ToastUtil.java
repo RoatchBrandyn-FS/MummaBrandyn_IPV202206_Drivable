@@ -47,4 +47,11 @@ public class ToastUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
+    public static void vehicleUpdated(Context context){
+
+        String text = "Vehicle Updated";
+
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
 }

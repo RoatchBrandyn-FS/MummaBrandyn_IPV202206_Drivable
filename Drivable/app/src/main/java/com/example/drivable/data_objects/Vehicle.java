@@ -28,6 +28,10 @@ public class Vehicle implements Serializable {
         driveTrain = _driveTrain;
     }
 
+    public String getDocID() {
+        return docID;
+    }
+
     public String getName() {
         return name;
     }

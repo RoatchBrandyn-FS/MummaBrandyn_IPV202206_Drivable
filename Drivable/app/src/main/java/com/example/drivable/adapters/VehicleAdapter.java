@@ -24,9 +24,13 @@ public class VehicleAdapter extends BaseAdapter {
     //ref collection
     private final ArrayList<Vehicle> vehicles;
 
-    public VehicleAdapter(Context _context, ArrayList<Vehicle> _vehicles){
+    //ref company acronym
+    private final String acronym;
+
+    public VehicleAdapter(Context _context, ArrayList<Vehicle> _vehicles, String _acronym){
         context = _context;
         vehicles = _vehicles;
+        acronym = _acronym;
     }
 
 
@@ -73,8 +77,10 @@ public class VehicleAdapter extends BaseAdapter {
         if (vehicleName != null && vehicleVin != null && vehicles.get(position).getMake() != null){
             // *** SET VIEWHOLDER HERE ***
 
+            String name = acronym + "-" + vehicleName;
+
             vh.ba_image.setImageResource(imageResource);
-            vh.ba_tv_main.setText(vehicleName);
+            vh.ba_tv_main.setText(name);
             vh.ba_tv_sub.setText(vehicleVin);
 
             String active = "ACTIVE";

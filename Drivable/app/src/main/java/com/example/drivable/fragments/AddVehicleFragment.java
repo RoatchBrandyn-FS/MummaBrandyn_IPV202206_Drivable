@@ -1,6 +1,8 @@
 package com.example.drivable.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +21,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.ToastUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.net.InternetDomainName;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -48,6 +52,7 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
     public interface AddVehicleFragmentListener{
         Account getAccount();
         boolean isEditing();
+        Vehicle getVehicle();
     }
 
     @Override
@@ -78,7 +83,9 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
         setSpinner();
 
         //check for if editing
-
+        if(addVehicleFragmentListener.isEditing()){
+            setElementValues();
+        }
 
     }
 
@@ -98,6 +105,7 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
 
         //get elements
         Account account = addVehicleFragmentListener.getAccount();
+        Vehicle vehicle = addVehicleFragmentListener.getVehicle();
         TextView nameTV = getActivity().findViewById(R.id.new_vehicle_tv_name);
 
         //create dynamic naming
@@ -114,6 +122,7 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
         }
         else{
             //isEditing true
+            nameString = "Name: " + account.getCompanyAcronym() + "-" + vehicle.getName();
         }
 
 
@@ -128,6 +137,51 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
         ArrayAdapter<String> makeSpinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, makeList);
         makeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         makeSpinner.setAdapter(makeSpinnerAdapter);
+
+    }
+
+    private void setElementValues(){
+        //get elements
+        Vehicle vehicle = addVehicleFragmentListener.getVehicle();
+        TextView titleTV = getActivity().findViewById(R.id.new_vehicle_tv_title);
+        EditText yearET = getActivity().findViewById(R.id.new_vehicle_et_year);
+        Spinner makeSpinner = getActivity().findViewById(R.id.add_vehicle_spinner_make);
+        EditText modelET = getActivity().findViewById(R.id.new_vehicle_et_model);
+        EditText driveTrainET = getActivity().findViewById(R.id.new_vehicle_et_drive_train);
+        EditText vinNumET = getActivity().findViewById(R.id.new_vehicle_et_vin_num);
+        EditText odometerET = getActivity().findViewById(R.id.new_vehicle_et_odometer);
+        SwitchCompat activeSwitch = getActivity().findViewById(R.id.new_vehicle_switch);
+        Button vehicleBtn = getActivity().findViewById(R.id.new_vehicle_btn);
+
+        //set elements with values
+        String newTitle = "Edit Vehicle";
+        titleTV.setText(newTitle);
+
+        yearET.setText(vehicle.getYear());
+
+        switch (vehicle.getMake()){
+            case "Dodge":
+                makeSpinner.setSelection(1);
+                break;
+            case "Ford":
+                makeSpinner.setSelection(2);
+                break;
+            case "Mercedes":
+                makeSpinner.setSelection(3);
+                break;
+            case "Nissan":
+                makeSpinner.setSelection(4);
+                break;
+        }
+
+        modelET.setText(vehicle.getModel());
+        driveTrainET.setText(vehicle.getDriveTrain());
+        vinNumET.setText(vehicle.getVinNum());
+        odometerET.setText(vehicle.getOdometer());
+        activeSwitch.setChecked(vehicle.isActive());
+
+        String newButton = "Update";
+        vehicleBtn.setText(newButton);
 
     }
 
@@ -177,10 +231,20 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
             AlertsUtil.addVehicleVinLengthError(getContext());
         }
         else{
-            //save data to firestore
-            String[] nameSplit = nameString.split(":");
 
-            addVehicle(nameSplit[1].trim(), yearString, makeString, modelString, driveTrainString, vinNumString, odometerString, activeSwitch.isChecked());
+
+            if(addVehicleFragmentListener.isEditing()){
+                //update current vehicle doc
+                updateVehicle(yearString, makeString, modelString, driveTrainString, vinNumString, odometerString, activeSwitch.isChecked());
+            }
+            else{
+                //save data to firestore
+                String[] nameSplit1 = nameString.split(":");
+                String[] nameSplit2 = nameSplit1[1].trim().split("-");
+
+                addVehicle(nameSplit2[1].trim(), yearString, makeString, modelString, driveTrainString, vinNumString, odometerString, activeSwitch.isChecked());
+            }
+
         }
 
     }
@@ -212,6 +276,41 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         ToastUtil.vehicleAdded(getContext());
+                        getActivity().finish();
+                    }
+                });
+
+    }
+
+    private void updateVehicle(String _year, String _make, String _model,  String _driveTrain, String _vinNum, String odometer, boolean _isActive){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Account account = addVehicleFragmentListener.getAccount();
+        String vehicleID = addVehicleFragmentListener.getVehicle().getDocID();
+
+        Map<String, Object> vehicle = new HashMap<>();
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_YEAR, _year);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_MAKE, _make);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_MODEL, _model);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN, _driveTrain);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_VIN_NUM, _vinNum);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_ODOMETER, odometer);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_IS_ACTIVE, _isActive);
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + account.getDocID() + "/" + FirebaseUtil.COLLECTION_VEHICLES).document(vehicleID)
+                .update(vehicle)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(e instanceof FirebaseFirestoreException){
+                            Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                        }
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        ToastUtil.vehicleUpdated(getContext());
+                        Intent resultIntent = new Intent();
+                        getActivity().setResult(Activity.RESULT_OK, resultIntent);
                         getActivity().finish();
                     }
                 });

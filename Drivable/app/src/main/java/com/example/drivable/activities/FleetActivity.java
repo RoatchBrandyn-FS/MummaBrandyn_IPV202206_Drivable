@@ -103,6 +103,11 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
         return searchArray;
     }
 
+    @Override
+    public Account getAccount() {
+        return userAccount;
+    }
+
     public void updateVehicles() {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.fragments.AddVehicleFragment;
 import com.example.drivable.utilities.IntentExtrasUtil;
 
@@ -16,6 +17,7 @@ public class AddVehicleActivity extends AppCompatActivity implements AddVehicleF
 
     private final String TAG = "AddVehicleActvty.TAG";
     Account userAccount;
+    Vehicle selectedVehicle;
     boolean isEditing = false;
 
     @Override
@@ -32,6 +34,15 @@ public class AddVehicleActivity extends AppCompatActivity implements AddVehicleF
         //set account data
         Intent currentIntent = getIntent();
         userAccount = (Account) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_ACCOUNT);
+        isEditing = currentIntent.getBooleanExtra(IntentExtrasUtil.EXTRA_IS_EDITING, false);
+
+        if(isEditing){
+            selectedVehicle = (Vehicle) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_VEHICLE);
+
+            if(actionBar != null){
+                actionBar.setTitle("Edit Vehicle");
+            }
+        }
 
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
                 .replace(R.id.fragment_container, AddVehicleFragment.newInstance()).commit();
@@ -48,4 +59,10 @@ public class AddVehicleActivity extends AppCompatActivity implements AddVehicleF
     public boolean isEditing() {
         return isEditing;
     }
+
+    @Override
+    public Vehicle getVehicle() {
+        return selectedVehicle;
+    }
+
 }

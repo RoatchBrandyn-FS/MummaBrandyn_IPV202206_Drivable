@@ -16,6 +16,7 @@ import androidx.fragment.app.ListFragment;
 import com.example.drivable.R;
 import com.example.drivable.activities.VehicleDetailsActivity;
 import com.example.drivable.adapters.VehicleAdapter;
+import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.IntentExtrasUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +41,7 @@ public class FleetListFragment extends ListFragment {
 
     public interface FleetListFragmentListener{
         ArrayList<Vehicle> getVehiclesList();
+        Account getAccount();
     }
 
     @Override
@@ -80,6 +82,7 @@ public class FleetListFragment extends ListFragment {
         Intent vehicleDetailsIntent = new Intent(getContext(), VehicleDetailsActivity.class);
         vehicleDetailsIntent.setAction(Intent.ACTION_RUN);
         vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, vehicles.get(position));
+        vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, fleetListFragmentListener.getAccount());
 
         startActivity(vehicleDetailsIntent);
     }
@@ -93,7 +96,8 @@ public class FleetListFragment extends ListFragment {
                 return v1.getName().compareTo(v2.getName());
             }
         });
-        VehicleAdapter vehicleAdapter = new VehicleAdapter(getContext(), vehicles);
+        String acronym = fleetListFragmentListener.getAccount().getCompanyAcronym();
+        VehicleAdapter vehicleAdapter = new VehicleAdapter(getContext(), vehicles, acronym);
 
         setListAdapter(vehicleAdapter);
     }

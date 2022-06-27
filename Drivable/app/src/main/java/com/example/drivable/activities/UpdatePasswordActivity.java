@@ -26,7 +26,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         //change Bar title to activity name
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Update Email");
+            actionBar.setTitle("Update Password");
         }
 
         //set account data
