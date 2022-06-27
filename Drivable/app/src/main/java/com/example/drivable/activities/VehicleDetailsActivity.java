@@ -8,9 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drivable.R;
-import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.Vehicle;
-import com.example.drivable.fragments.DashboardFragment;
 import com.example.drivable.fragments.VehicleDetailsFragment;
 import com.example.drivable.utilities.IntentExtrasUtil;
 

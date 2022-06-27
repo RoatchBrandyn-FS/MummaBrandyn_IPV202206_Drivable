@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +36,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface SignInFragmentListener{
-        void signIn(String email, String password, Context context);
+        void signIn(String email, String password, Context context, RelativeLayout progressbarView, ProgressBar progressBar);
     }
 
     @Override
@@ -105,32 +107,10 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
     private void validateSignIn(String emailInput, String passwordInput, EditText passwordET){
 
-        signInFragmentListener.signIn(emailInput, passwordInput, getContext());
+        RelativeLayout progressbarView = getActivity().findViewById(R.id.sign_in_progressbar_view);
+        ProgressBar progressBar = getActivity().findViewById(R.id.sign_in_progressbar);
 
-        /*ArrayList<Account> accounts = signInFragmentListener.getAccounts();
-        Account confirmedAccount = null;
-
-        for(Account acnt: accounts){
-            if(Objects.equals(acnt.getEmail(), emailInput)){
-                confirmedAccount = acnt;
-            }
-        }
-
-        if(confirmedAccount == null){
-            AlertsUtil.emailMatchError(getContext());
-            passwordET.setText("");
-        }
-        else{
-
-            if(!confirmedAccount.getPassword().equals(passwordInput)){
-                AlertsUtil.passwordSignInError(getContext());
-                passwordET.setText("");
-            }
-            else{
-                ToastUtil.testResults(getContext());
-            }
-
-        }*/
+        signInFragmentListener.signIn(emailInput, passwordInput, getContext(), progressbarView, progressBar);
 
     }
 

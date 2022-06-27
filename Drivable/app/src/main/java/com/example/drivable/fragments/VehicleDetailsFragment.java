@@ -4,6 +4,9 @@ import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,6 +56,8 @@ public class VehicleDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         Vehicle selectedVehicle = vehicleDetailsFragmentListener.getVehicle();
 
         //get elements
@@ -91,5 +96,21 @@ public class VehicleDetailsFragment extends Fragment {
         int imageResource = getContext().getResources().getIdentifier(uri, null, getContext().getPackageName());
         makeImage.setImageResource(imageResource);
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_vehicle_details, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getTitle().equals("Edit Vehicle")){
+            //should open same add vehicle page but with values in the edit texts, spinner, and a different title
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

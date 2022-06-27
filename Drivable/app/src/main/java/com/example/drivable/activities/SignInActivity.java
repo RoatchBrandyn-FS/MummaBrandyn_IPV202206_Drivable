@@ -7,10 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.fragments.SignInFragment;
+import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
 import com.example.drivable.utilities.NetworkUtil;
@@ -54,7 +58,11 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
     }
 
     @Override
-    public void signIn(String email, String password, Context context) {
+    public void signIn(String email, String password, Context context, RelativeLayout progressbarView, ProgressBar progressBar) {
+
+        progressbarView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setActivated(true);
 
         if(!NetworkUtil.isConnected(this)){
             ToastUtil.networkError(this);
@@ -69,13 +77,11 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
 
                     Log.i(TAG, "onSuccess: User Email = " + FirebaseUtil.mAuth.getUid());
 
+                    progressBar.setActivated(false);
+                    progressbarView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+
                     loadAccount(authResult.getUser().getUid(), context);
-
-                    /*Intent dashboardIntent = new Intent(context, DashboardActivity.class);
-                    dashboardIntent.setAction(Intent.ACTION_RUN);
-                    dashboardIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                    startActivity(dashboardIntent);*/
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -83,6 +89,13 @@ public class SignInActivity extends AppCompatActivity implements SignInFragment.
                     Log.i(TAG, "onFailure: Login Failed");
                     Log.i(TAG, "onFailure: Error: " + e);
                     Log.i(TAG, "onFailure: " + FirebaseUtil.mAuth.getUid());
+
+                    AlertsUtil.accountValidateError(context);
+
+                    progressBar.setActivated(false);
+                    progressbarView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+
                 }
             });
         }

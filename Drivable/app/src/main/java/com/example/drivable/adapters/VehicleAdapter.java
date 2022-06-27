@@ -57,6 +57,7 @@ public class VehicleAdapter extends BaseAdapter {
         ViewHolder vh;
         String vehicleName = vehicles.get(position).getName();
         String vehicleVin = vehicles.get(position).getVinNum();
+        boolean isActive = vehicles.get(position).isActive();
         String uri = "@drawable/" + vehicles.get(position).getMake().toLowerCase();
         int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
 
@@ -75,6 +76,18 @@ public class VehicleAdapter extends BaseAdapter {
             vh.ba_image.setImageResource(imageResource);
             vh.ba_tv_main.setText(vehicleName);
             vh.ba_tv_sub.setText(vehicleVin);
+
+            String active = "ACTIVE";
+            String inactive = "INACTIVE";
+
+            if(isActive){
+                vh.ba_tv_status.setText(active);
+                vh.ba_tv_status.setTextColor(context.getResources().getColor(R.color.green));
+            }
+            else{
+                vh.ba_tv_status.setText(inactive);
+                vh.ba_tv_status.setTextColor(context.getResources().getColor(R.color.red));
+            }
         }
 
         return convertView;
@@ -85,11 +98,13 @@ public class VehicleAdapter extends BaseAdapter {
         final ImageView ba_image;
         final TextView ba_tv_main;
         final TextView ba_tv_sub;
+        final TextView ba_tv_status;
 
         public ViewHolder(View _layout){
             ba_image = _layout.findViewById(R.id.ba_make_image);
             ba_tv_main = _layout.findViewById(R.id.ba_vehicle_tv_main);
             ba_tv_sub = _layout.findViewById(R.id.ba_vehicle_tv_sub);
+            ba_tv_status = _layout.findViewById(R.id.ba_vehicle_tv_status);
         }
     }
 

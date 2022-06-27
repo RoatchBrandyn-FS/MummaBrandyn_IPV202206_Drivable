@@ -40,7 +40,6 @@ public class FleetListFragment extends ListFragment {
 
     public interface FleetListFragmentListener{
         ArrayList<Vehicle> getVehiclesList();
-        String getRoomDocID();
     }
 
     @Override
@@ -62,6 +61,7 @@ public class FleetListFragment extends ListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setFleetList();
+
 
     }
 
@@ -97,5 +97,7 @@ public class FleetListFragment extends ListFragment {
 
         setListAdapter(vehicleAdapter);
     }
+    
+
 
 }

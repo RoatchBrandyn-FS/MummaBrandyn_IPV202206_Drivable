@@ -15,17 +15,6 @@
         android:layout_height="match_parent"
         android:layout="@layout/stub_empty_fleet"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/pets_list_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_baseline_add_32"
-        android:contentDescription="@string/fab_add"
-        android:layout_margin="36dp"
-        android:backgroundTint="@color/orange"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,28 +23,11 @@ public class AlertsUtil {
 
     }
 
-    public static void emailValidateError(Context context){
+    public static void accountValidateError(Context context){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Account Not Found");
-        builder.setMessage("Email provided was not found assigned to an account");
-        builder.setCancelable(false);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-
-        builder.show();
-
-    }
-
-    public static void passwordSignInError(Context context){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Password Doesn't Match");
-        builder.setMessage("Password doesn't match whats on file with this email.");
+        builder.setMessage("Email or Password didn't match our accounts. ");
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -266,6 +249,91 @@ public class AlertsUtil {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Profile Unchanged");
         builder.setMessage("Nothing changed from Profile. If make sure at least one of the fields or image is changed to update Profile.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void addVehicleAddEmptyError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Field(s) Empty");
+        builder.setMessage("Please fill in all needed information to Add Vehicle.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void addVehicleUpdateEmptyError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Field(s) Empty");
+        builder.setMessage("Please fill in all needed information to Update Vehicle.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void addVehicleChooseMakeError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Vehicle Make Not Chosen");
+        builder.setMessage("Please make sure to choose a make for the vehicle.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void addVehicleYearLengthError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Year Format Partial");
+        builder.setMessage("Please make sure the year is formatted with 4 digits (Example: 2020).");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void addVehicleVinLengthError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Vin # Format Partial");
+        builder.setMessage("Please make sure to use full vin # and not just last 6.");
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

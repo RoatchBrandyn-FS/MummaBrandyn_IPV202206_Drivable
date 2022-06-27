@@ -40,4 +40,11 @@ public class ToastUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
+    public static void vehicleAdded(Context context){
+
+        String text = "Vehicle Added";
+
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
 }
