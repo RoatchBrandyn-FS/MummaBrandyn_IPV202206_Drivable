@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.example.drivable.R;
 import com.example.drivable.activities.FleetActivity;
 import com.example.drivable.activities.ProfileActivity;
+import com.example.drivable.activities.ShopsActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.DateUtil;
@@ -97,6 +98,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         //set buttons
         Button myFleetBtn = getActivity().findViewById(R.id.dashboard_btn_my_fleet);
         myFleetBtn.setOnClickListener(this);
+        Button myShopsBtn = getActivity().findViewById(R.id.dashboard_btn_my_shops);
+        myShopsBtn.setOnClickListener(this);
 
     }
 
@@ -131,6 +134,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             fleetIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, dashboardFragmentListener.getAccount());
 
             startActivity(fleetIntent);
+        }
+        else if(view.getId() == R.id.dashboard_btn_my_shops){
+
+            Intent shopsIntent = new Intent(getContext(), ShopsActivity.class);
+            shopsIntent.setAction(Intent.ACTION_RUN);
+            shopsIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, dashboardFragmentListener.getAccount());
+
+            startActivity(shopsIntent);
+
         }
 
     }

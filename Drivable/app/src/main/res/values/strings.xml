@@ -68,4 +68,9 @@
     <string name="sample_vehicle_name">Vehicle Name</string>
     <string name="btn_tittle_add">Add</string>
     <string name="sample_status">Status</string>
+    <string name="btn_title_my_shops">My Shops</string>
+    <string name="title_inactive_locations">Inactive Locations</string>
+    <string name="title_shop">Shop</string>
+    <string name="string_lot">Lot</string>
+    <string name="string_empty_shops">No Shops Found</string>
 </resources>
