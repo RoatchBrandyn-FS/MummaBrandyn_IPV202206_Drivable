@@ -54,4 +54,18 @@ public class ToastUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
+    public static void shopAdded(Context context){
+
+        String text = "Shop Added";
+
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void shopUpdated(Context context){
+
+        String text = "Shop Updated";
+
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
 }

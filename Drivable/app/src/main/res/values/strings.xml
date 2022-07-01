@@ -73,4 +73,15 @@
     <string name="title_shop">Shop</string>
     <string name="string_lot">Lot</string>
     <string name="string_empty_shops">No Shops Found</string>
+    <string name="title_name">Name</string>
+    <string name="title_address">Address</string>
+    <string name="string_line_1">Line 1</string>
+    <string name="string_line_2">Line 2</string>
+    <string name="string_shop_type">Shop Type</string>
+    <string name="string_description">Description</string>
+    <string name="string_maintenance">Maintenance</string>
+    <string name="string_oil_change">Oil Change</string>
+    <string name="string_tires_wheels">Tires/Wheels</string>
+    <string name="string_glass">Glass</string>
+    <string name="string_body">Body</string>
 </resources>

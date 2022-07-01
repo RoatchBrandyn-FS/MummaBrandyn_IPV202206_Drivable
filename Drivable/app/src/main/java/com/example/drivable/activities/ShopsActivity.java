@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,7 @@ import com.example.drivable.fragments.ShopsListFragment;
 import com.example.drivable.utilities.IntentExtrasUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ShopsActivity extends AppCompatActivity {
+public class ShopsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = "ShopsActivity.TAG";
     Account userAccount;
@@ -31,14 +32,14 @@ public class ShopsActivity extends AppCompatActivity {
         //change Bar title to activity name
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
-            actionBar.setTitle("Fleet");
+            actionBar.setTitle("Shops");
             actionBar.setHomeButtonEnabled(true);
             actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
         //set fab button
-        FloatingActionButton fab = findViewById(R.id.activity_fleet_fab);
-        //fab.setOnClickListener(this);
+        FloatingActionButton fab = findViewById(R.id.activity_shops_fab);
+        fab.setOnClickListener(this);
 
         //set account data
         Intent currentIntent = getIntent();
@@ -77,8 +78,17 @@ public class ShopsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Log.i(TAG, "onBackPressed: Something pressed");
+    public void onClick(View view) {
+
+        if(view.getId() == R.id.activity_shops_fab){
+
+            Log.i(TAG, "onClick: Send to Add Shop page");
+            Intent addShopIntent = new Intent(this, AddShopActivity.class);
+            addShopIntent.setAction(Intent.ACTION_RUN);
+            addShopIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
+
+            startActivity(addShopIntent);
+        }
+
     }
 }

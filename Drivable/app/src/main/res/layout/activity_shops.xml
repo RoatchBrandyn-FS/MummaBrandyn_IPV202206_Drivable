@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_title_fleet"
+            android:text="@string/btn_title_my_shops"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
