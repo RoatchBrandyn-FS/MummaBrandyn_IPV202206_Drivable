@@ -155,7 +155,7 @@ public class VehicleDetailsFragment extends Fragment {
                     Log.i(TAG, "onActivityResult: Result Code = " + result.getResultCode());
 
                     if (result.getResultCode() == Activity.RESULT_OK){
-                        Log.i(TAG, "onActivityResult: Data found after selecting image");
+                        Log.i(TAG, "onActivityResult: Data for Vehicle Edited");
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                         db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + vehicleDetailsFragmentListener.getAccount().getDocID() + "/" +
@@ -174,7 +174,7 @@ public class VehicleDetailsFragment extends Fragment {
                                         String _driveTrain = doc.getString(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN);
 
                                         Vehicle vehicleUpdate = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
-                                        //vehicleDetailsFragmentListener.updateVehicle(vehicleUpdate);
+                                        vehicleDetailsFragmentListener.updateVehicle(vehicleUpdate);
                                         String acronym = vehicleDetailsFragmentListener.getAccount().getCompanyAcronym();
 
                                         //get elements

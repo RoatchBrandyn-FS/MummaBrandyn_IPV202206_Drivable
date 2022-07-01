@@ -52,6 +52,5 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
     @Override
     public void updateVehicle(Vehicle vehicleUpdate) {
         selectedVehicle = vehicleUpdate;
-        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container, VehicleDetailsFragment.newInstance()).commit();
     }
 }

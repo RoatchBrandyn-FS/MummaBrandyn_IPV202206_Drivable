@@ -17,8 +17,17 @@ import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.Shop;
 import com.example.drivable.fragments.FleetListFragment;
 import com.example.drivable.fragments.ShopsListFragment;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -51,6 +60,13 @@ public class ShopsActivity extends AppCompatActivity implements View.OnClickList
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
                 .replace(R.id.activity_shops_container_list, ShopsListFragment.newInstance()).commit();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateShops();
     }
 
     @Override
@@ -104,5 +120,54 @@ public class ShopsActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public Account getAccount() {
         return userAccount;
+    }
+
+    private void updateShops(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(userAccount.getDocID()).collection(FirebaseUtil.COLLECTION_SHOPS).get()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        ArrayList<Shop> updatedShops = new ArrayList<>();
+
+                        for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+
+                            String name = doc.getString(FirebaseUtil.SHOPS_FIELD_NAME);
+                            String addressLine1 = doc.getString(FirebaseUtil.SHOPS_FIELD_ADDRESS_1);
+                            String addressLine2 = doc.getString(FirebaseUtil.SHOPS_FIELD_ADDRESS_2);
+                            boolean isMaintenance = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_MAINTENANCE);
+                            boolean isOilChange = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_OIL_CHANGE);
+                            boolean isTiresWheels = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_TIRES_WHEELS);
+                            boolean isGlass = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_GLASS);
+                            boolean isBody = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_BODY);
+                            String description = doc.getString(FirebaseUtil.SHOPS_FIELD_DESCRIPTION);
+
+                            GeoPoint geopoint = doc.getGeoPoint(FirebaseUtil.SHOPS_FIELD_LATLNG);
+                            double lat = geopoint.getLatitude();
+                            double lng = geopoint.getLongitude();
+                            LatLng latLng = new LatLng(lat, lng);
+
+                            Shop newShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
+                                    isGlass, isBody, latLng);
+
+                            updatedShops.add(newShop);
+
+                        }
+
+                        userAccount.updateShops(updatedShops);
+
+                        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
+                                .replace(R.id.activity_shops_container_list, ShopsListFragment.newInstance()).commit();
+                    }
+                });
+
     }
 }

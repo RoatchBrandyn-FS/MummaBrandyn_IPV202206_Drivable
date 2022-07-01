@@ -85,4 +85,6 @@
     <string name="string_glass">Glass</string>
     <string name="string_body">Body</string>
     <string name="string_go_to_google_maps">Go to Google Maps</string>
+    <string name="menu_title_edit_shop">Edit Shop</string>
+    <string name="menu_title_delete_shop">Delete Shop</string>
 </resources>

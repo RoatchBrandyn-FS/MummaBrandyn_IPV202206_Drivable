@@ -50,4 +50,9 @@ public class ShopDetailsActivity extends AppCompatActivity implements ShopDetail
     public Account getAccount() {
         return userAccount;
     }
+
+    @Override
+    public void updateShop(Shop updatedShop) {
+        selectedShop = updatedShop;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.drivable.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.core.app.NavUtils;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Shop;
 import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
@@ -48,6 +50,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
 
     //variables
     Account userAccount;
+    Shop selectedShop;
     boolean isEditing;
 
     String name;
@@ -63,6 +66,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         //set account data
         Intent currentIntent = getIntent();
         userAccount = (Account) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_ACCOUNT);
+        isEditing = currentIntent.getBooleanExtra(IntentExtrasUtil.EXTRA_IS_EDITING, false);
 
         //change Bar title to activity name
         ActionBar actionBar = getSupportActionBar();
@@ -85,6 +89,8 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
 
         if(isEditing){
             shopBtn.setText(getResources().getText(R.string.btn_update));
+            selectedShop = (Shop) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_SHOP);
+            setEditElements();
         }
 
     }
@@ -194,6 +200,33 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void setEditElements(){
+
+        //get elements
+        TextView nameTV = findViewById(R.id.add_shop_tv_name);
+        TextView addressLine1TV = findViewById(R.id.add_shop_tv_address_line_1);
+        TextView addressLine2TV = findViewById(R.id.add_shop_tv_address_line_2);
+        CheckBox maintenanceCB = findViewById(R.id.add_shop_cb_maintenance);
+        CheckBox oilChangeCB = findViewById(R.id.add_shop_cb_oil_change);
+        CheckBox tiresWheelsCB = findViewById(R.id.add_shop_cb_tires_wheels);
+        CheckBox glassCB = findViewById(R.id.add_shop_cb_glass);
+        CheckBox bodyCB = findViewById(R.id.add_shop_cb_body);
+        EditText descriptionET = findViewById(R.id.add_shop_et_description);
+
+        //set elements
+        nameTV.setText(selectedShop.getName());
+        addressLine1TV.setText(selectedShop.getAddressLine1());
+        addressLine2TV.setText(selectedShop.getAddressLine2());
+        maintenanceCB.setChecked(selectedShop.isMaintenance());
+        oilChangeCB.setChecked(selectedShop.isOilChange());
+        tiresWheelsCB.setChecked(selectedShop.isTiresWheels());
+        glassCB.setChecked(selectedShop.isGlass());
+        bodyCB.setChecked(selectedShop.isBody());
+        descriptionET.setText(selectedShop.getDescription());
+        latLng = new LatLng(selectedShop.getLat(), selectedShop.getLng());
+
+    }
+
     private void errorHandle(){
 
         //get elements
@@ -230,10 +263,13 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         }
         else {
             if(!isEditing){
-                addShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass, isBody, descriptionString);
+                addShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass,
+                        isBody, descriptionString);
             }
             else{
                 //editing
+                editShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass,
+                        isBody, descriptionString);
             }
 
         }
@@ -277,6 +313,47 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
 
+    }
+
+    private void editShop(Context context, String _name, String _addressLine1, String _addressLine2, boolean _isMaintenance, boolean _isOilChange, boolean _isTiresWheels,
+                          boolean _isGlass, boolean _isBody, String _description){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> shop = new HashMap<>();
+        shop.put(FirebaseUtil.SHOPS_FIELD_NAME, _name);
+        shop.put(FirebaseUtil.SHOPS_FIELD_ADDRESS_1, _addressLine1);
+        shop.put(FirebaseUtil.SHOPS_FIELD_ADDRESS_2, _addressLine2);
+        shop.put(FirebaseUtil.SHOPS_FIELD_IS_MAINTENANCE, _isMaintenance);
+        shop.put(FirebaseUtil.SHOPS_FIELD_IS_OIL_CHANGE, _isOilChange);
+        shop.put(FirebaseUtil.SHOPS_FIELD_IS_TIRES_WHEELS, _isTiresWheels);
+        shop.put(FirebaseUtil.SHOPS_FIELD_IS_GLASS, _isGlass);
+        shop.put(FirebaseUtil.SHOPS_FIELD_IS_BODY, _isBody);
+        shop.put(FirebaseUtil.SHOPS_FIELD_DESCRIPTION, _description);
+
+        double lat = latLng.latitude;
+        double lng = latLng.longitude;
+        GeoPoint geoPoint = new GeoPoint(lat, lng);
+
+        shop.put(FirebaseUtil.SHOPS_FIELD_LATLNG, geoPoint);
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + userAccount.getDocID() + "/" + FirebaseUtil.COLLECTION_SHOPS)
+                .document(selectedShop.getDocID()).update(shop)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(e instanceof FirebaseFirestoreException){
+                            Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                        }
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        ToastUtil.shopUpdated(context);
+                        Intent resultIntent = new Intent();
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                    }
+                });;
     }
 
 
