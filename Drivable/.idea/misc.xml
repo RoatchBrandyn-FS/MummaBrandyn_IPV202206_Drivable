@@ -7,12 +7,14 @@
         <entry key="app/src/main/res/drawable-v24/rounded_corners_all_2_white.xml" value="0.179" />
         <entry key="app/src/main/res/drawable-v24/rounded_corners_all_white.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/rounded_corners_all_10_white.xml" value="0.13" />
+        <entry key="app/src/main/res/drawable/rounded_corners_all_orange_10.xml" value="0.1305" />
         <entry key="app/src/main/res/drawable/rounded_corners_top_10_white.xml" value="0.1855" />
         <entry key="app/src/main/res/drawable/rounded_corners_top_5_white.xml" value="0.178" />
         <entry key="app/src/main/res/drawable/rounded_corners_topleft_10.xml" value="0.1845" />
         <entry key="app/src/main/res/layout/activity_fleet.xml" value="0.23077290852864585" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
-        <entry key="app/src/main/res/layout/activity_shops.xml" value="0.12083333333333333" />
+        <entry key="app/src/main/res/layout/activity_shops.xml" value="0.3309557774607703" />
+        <entry key="app/src/main/res/layout/base_shop_list_adapter.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/base_vehicle_adapter.xml" value="0.3404581705729167" />
         <entry key="app/src/main/res/layout/empty_stub_shops.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_add_shop.xml" value="0.3369397217928903" />
@@ -21,6 +23,7 @@
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.20774332682291669" />
         <entry key="app/src/main/res/layout/fragment_list_fleet.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2765757242838542" />
+        <entry key="app/src/main/res/layout/fragment_shop_details.xml" value="0.1044001261393229" />
         <entry key="app/src/main/res/layout/fragment_shops_list.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.10238342285156246" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25282491048177086" />

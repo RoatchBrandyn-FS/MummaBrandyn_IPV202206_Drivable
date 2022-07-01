@@ -13,6 +13,7 @@
     <color name="blue_500">#9957C0EB</color>
     <color name="orange">#FBB03B</color>
     <color name="orange_200">#88FBB03B</color>
+    <color name="darkOrange">#FF8301</color>
     <color name="green">#00AC03</color>
     <color name="red">#EB3F10</color>
     <color name="shadow">#8C000000</color>

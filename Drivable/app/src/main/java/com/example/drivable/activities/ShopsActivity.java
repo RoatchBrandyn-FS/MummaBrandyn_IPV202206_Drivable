@@ -14,18 +14,21 @@ import androidx.core.app.NavUtils;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Shop;
 import com.example.drivable.fragments.FleetListFragment;
 import com.example.drivable.fragments.ShopsListFragment;
 import com.example.drivable.utilities.IntentExtrasUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ShopsActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+
+public class ShopsActivity extends AppCompatActivity implements View.OnClickListener, ShopsListFragment.ShopsListFragmentListener {
 
     private final String TAG = "ShopsActivity.TAG";
     Account userAccount;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shops);
 
@@ -86,9 +89,20 @@ public class ShopsActivity extends AppCompatActivity implements View.OnClickList
             Intent addShopIntent = new Intent(this, AddShopActivity.class);
             addShopIntent.setAction(Intent.ACTION_RUN);
             addShopIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
+            addShopIntent.putExtra(IntentExtrasUtil.EXTRA_IS_EDITING, false);
 
             startActivity(addShopIntent);
         }
 
+    }
+
+    @Override
+    public ArrayList<Shop> getShopsList() {
+        return userAccount.getShops();
+    }
+
+    @Override
+    public Account getAccount() {
+        return userAccount;
     }
 }

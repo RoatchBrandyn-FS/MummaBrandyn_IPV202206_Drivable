@@ -22,21 +22,26 @@ import com.example.drivable.activities.FleetActivity;
 import com.example.drivable.activities.ProfileActivity;
 import com.example.drivable.activities.ShopsActivity;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Shop;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.DateUtil;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.MapValue;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener {
 
@@ -92,8 +97,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         companyTV.setText(account.getCompany());
         dateTV.setText(currentDate);
 
-        //set vehicle totals
+        //set vehicle totals and shops
         setVehicleTotals(account);
+        setShops(account);
 
         //set buttons
         Button myFleetBtn = getActivity().findViewById(R.id.dashboard_btn_my_fleet);
@@ -207,5 +213,50 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     }
                 });
 
+    }
+
+    private void setShops(Account account){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(account.getDocID()).collection(FirebaseUtil.COLLECTION_SHOPS).get()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        ArrayList<Shop> updatedShops = new ArrayList<>();
+
+                        for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+
+                            String name = doc.getString(FirebaseUtil.SHOPS_FIELD_NAME);
+                            String addressLine1 = doc.getString(FirebaseUtil.SHOPS_FIELD_ADDRESS_1);
+                            String addressLine2 = doc.getString(FirebaseUtil.SHOPS_FIELD_ADDRESS_2);
+                            boolean isMaintenance = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_MAINTENANCE);
+                            boolean isOilChange = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_OIL_CHANGE);
+                            boolean isTiresWheels = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_TIRES_WHEELS);
+                            boolean isGlass = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_GLASS);
+                            boolean isBody = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_BODY);
+                            String description = doc.getString(FirebaseUtil.SHOPS_FIELD_DESCRIPTION);
+
+                            GeoPoint geopoint = doc.getGeoPoint(FirebaseUtil.SHOPS_FIELD_LATLNG);
+                            double lat = geopoint.getLatitude();
+                            double lng = geopoint.getLongitude();
+                            LatLng latLng = new LatLng(lat, lng);
+
+                            Shop newShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
+                                    isGlass, isBody, latLng);
+
+                            updatedShops.add(newShop);
+
+                        }
+
+                        account.updateShops(updatedShops);
+                    }
+                });
     }
 }

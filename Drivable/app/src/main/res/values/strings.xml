@@ -84,4 +84,5 @@
     <string name="string_tires_wheels">Tires/Wheels</string>
     <string name="string_glass">Glass</string>
     <string name="string_body">Body</string>
+    <string name="string_go_to_google_maps">Go to Google Maps</string>
 </resources>

@@ -36,6 +36,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,6 +48,8 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
 
     //variables
     Account userAccount;
+    boolean isEditing;
+
     String name;
     String addressLine1;
     String addressLine2;
@@ -57,22 +60,32 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_add_shop);
 
-        //change Bar title to activity name
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.setTitle("Add Shop");
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
-        }
-
         //set account data
         Intent currentIntent = getIntent();
         userAccount = (Account) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_ACCOUNT);
+
+        //change Bar title to activity name
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+
+            if(!isEditing){
+                actionBar.setTitle("Add Shop");
+            }
+            else{
+                actionBar.setTitle("Edit Shop");
+            }
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
+        }
 
         setAddressSearch();
 
         Button shopBtn = findViewById(R.id.add_shop_btn_shop);
         shopBtn.setOnClickListener(this);
+
+        if(isEditing){
+            shopBtn.setText(getResources().getText(R.string.btn_update));
+        }
 
     }
 
@@ -216,7 +229,13 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
             AlertsUtil.addShopDescriptionEmpty(this);
         }
         else {
-            addShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass, isBody, descriptionString);
+            if(!isEditing){
+                addShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass, isBody, descriptionString);
+            }
+            else{
+                //editing
+            }
+
         }
 
 
@@ -237,7 +256,12 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         shop.put(FirebaseUtil.SHOPS_FIELD_IS_GLASS, _isGlass);
         shop.put(FirebaseUtil.SHOPS_FIELD_IS_BODY, _isBody);
         shop.put(FirebaseUtil.SHOPS_FIELD_DESCRIPTION, _description);
-        shop.put(FirebaseUtil.SHOPS_FIELD_LATLNG, latLng);
+
+        double lat = latLng.latitude;
+        double lng = latLng.longitude;
+        GeoPoint geoPoint = new GeoPoint(lat, lng);
+
+        shop.put(FirebaseUtil.SHOPS_FIELD_LATLNG, geoPoint);
 
         db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + userAccount.getDocID() + "/" + FirebaseUtil.COLLECTION_SHOPS).add(shop)
                 .addOnFailureListener(new OnFailureListener() {

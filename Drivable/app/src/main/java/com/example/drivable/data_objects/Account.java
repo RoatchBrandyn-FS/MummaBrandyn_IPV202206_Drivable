@@ -19,6 +19,7 @@ public class Account implements Serializable {
     private final String firstName;
     private final String lastName;
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<Shop> shops = new ArrayList<>();
     // *** MORE VARIABLES TO BE ADDED AFTER POC ***
 
     public Account (String _docID, String _accountImageRef, String _company, String _companyAcronym, String _firstName, String _lastName){
@@ -64,5 +65,13 @@ public class Account implements Serializable {
 
     public void updateVehicles(ArrayList<Vehicle> updatedVehicles){
         vehicles = updatedVehicles;
+    }
+
+    public ArrayList<Shop> getShops() {
+        return shops;
+    }
+
+    public void updateShops(ArrayList<Shop> updatedShops){
+        shops = updatedShops;
     }
 }
