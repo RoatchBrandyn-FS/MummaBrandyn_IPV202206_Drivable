@@ -1,176 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/blue_200">
+    android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/title_new_maintenance_log"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="32dp"
-        android:textAlignment="center"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/blue_200">
 
-    <TextView
-        android:id="@+id/add_log_tv_vehicle_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sample_vehicle_name"
-        android:textStyle="italic"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="24dp"
-        android:textAlignment="center"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:isScrollContainer="true"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:background="@drawable/rounded_corners_top_10_white">
+            android:text="@string/title_new_maintenance_log"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="32dp"
+            android:textAlignment="center"/>
 
+        <TextView
+            android:id="@+id/add_log_tv_vehicle_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_vehicle_name"
+            android:textStyle="italic"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="24dp"
+            android:textAlignment="center"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_date"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp"/>
-
-            <TextView
-                android:id="@+id/add_log_tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/sample_text"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/string_image"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:isScrollContainer="true"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:background="@drawable/rounded_corners_top_10_white">
+
 
                 <TextView
-                    android:id="@+id/add_log_choose_image"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/string_image_hint"
+                    android:text="@string/title_date"
                     android:textSize="20sp"
-                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"/>
+
+                <TextView
+                    android:id="@+id/add_log_tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/orange"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    android:layout_marginTop="8dp"
+                    android:text="@string/sample_text"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_image"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/add_log_tv_choose_image"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/string_image_hint"
+                        android:textSize="20sp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/orange"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                    <ImageView
+                        android:id="@+id/add_log_iv_camera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_camera_alt_32"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/add_log_iv_camera"
+                    android:id="@+id/add_log_iv_main"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/image_placeholder"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:tag="0"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_active"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/add_log_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_camera_alt_32"
-                    android:layout_marginEnd="8dp"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    android:layout_gravity="start"
+                    android:layout_marginStart="16dp"
+                    android:textOn="@string/switch_on"
+                    android:textOff="@string/switch_off"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_location"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"/>
+
+                <Spinner
+                    android:id="@+id/add_log_spinner"
+                    android:layout_width="300dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_report"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/add_log_et_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/title_report"
+                    android:maxLines="5"
+                    android:maxLength="200"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/add_log_btn_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:text="@string/btn_tittle_add"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/orange"/>
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/add_log_iv_main"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/image_placeholder"
-                android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:tag="0"/>
+        </ScrollView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_active"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp"/>
+    </LinearLayout>
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/add_log_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="16dp"
-                android:textOn="@string/switch_on"
-                android:textOff="@string/switch_off"/>
+    <RelativeLayout
+        android:id="@+id/add_log_progressbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/shadow"
+        android:gravity="center"
+        android:visibility="gone">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_location"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp"/>
+        <ProgressBar
+            android:id="@+id/add_log_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
-            <Spinner
-                android:id="@+id/add_log_spinner_make"
-                android:layout_width="300dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"/>
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_report"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp"/>
-
-            <EditText
-                android:id="@+id/add_log_et_report"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/title_report"
-                android:maxLines="5"
-                android:maxLength="200"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
-                android:id="@+id/add_log_btn_add"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:text="@string/btn_tittle_add"
-                android:layout_margin="16dp"
-                android:backgroundTint="@color/orange"/>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</LinearLayout>
+</RelativeLayout>

@@ -134,8 +134,9 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
                             String _make = doc.getString(FirebaseUtil.VEHICLES_FIELD_MAKE);
                             String _model = doc.getString(FirebaseUtil.VEHICLES_FIELD_MODEL);
                             String _driveTrain = doc.getString(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN);
+                            boolean _isAtLot = doc.getBoolean(FirebaseUtil.VEHICLES_FIELD_IS_AT_LOT);
 
-                            Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
+                            Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain, _isAtLot);
                             _vehicles.add(newVehicle);
 
                             setMLogs(newVehicle);
@@ -217,13 +218,15 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
                         for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
 
                             String logRefString = doc.getString(FirebaseUtil.LOGS_FIELD_REF);
+                            String name = doc.getString(FirebaseUtil.LOGS_FIELD_NAME);
+                            String date = doc.getString(FirebaseUtil.LOGS_FIELD_DATE);
                             String shopName = doc.getString(FirebaseUtil.LOGS_FIELD_SHOP_NAME);
                             String addressLine2 = doc.getString(FirebaseUtil.LOGS_FIELD_ADDRESS_LINE_2);
                             double lat = doc.getDouble(FirebaseUtil.LOGS_FIELD_LAT);
                             double lng = doc.getDouble(FirebaseUtil.LOGS_FIELD_LNG);
                             String report = doc.getString(FirebaseUtil.LOGS_FIELD_REPORT);
 
-                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), logRefString, shopName, addressLine2, lat, lng, report);
+                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(),name, date, logRefString, shopName, addressLine2, lat, lng, report);
                             logs.add(newLog);
                         }
 

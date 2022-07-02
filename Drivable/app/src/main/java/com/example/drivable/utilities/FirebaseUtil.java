@@ -41,6 +41,7 @@ public class FirebaseUtil {
     public static final String VEHICLES_FIELD_MAKE = "make";
     public static final String VEHICLES_FIELD_MODEL = "model";
     public static final String VEHICLES_FIELD_DRIVE_TRAIN = "drive_train";
+    public static final String VEHICLES_FIELD_IS_AT_LOT = "is_at_lot";
 
     //Shops collection field keys
     public static final String SHOPS_FIELD_NAME = "name";
@@ -55,7 +56,9 @@ public class FirebaseUtil {
     public static final String SHOPS_FIELD_LATLNG = "lat_lng";
 
     //Maintenance Logs collection fields
+    public static final String LOGS_FIELD_NAME = "name";
     public static final String LOGS_FIELD_REF= "image_ref";
+    public static final String LOGS_FIELD_DATE = "date";
     public static final String LOGS_FIELD_SHOP_NAME = "shop_name";
     public static final String LOGS_FIELD_ADDRESS_LINE_2 = "address_line_2";
     public static final String LOGS_FIELD_LAT= "lat";

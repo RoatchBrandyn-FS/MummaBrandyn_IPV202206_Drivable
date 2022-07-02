@@ -16,9 +16,10 @@ public class Vehicle implements Serializable {
     private final String model;
     private final String driveTrain;
     private ArrayList<MaintenanceLog> logs = new ArrayList<>();
-    //later variables
+    private final boolean isAtLot;
 
-    public Vehicle(String _docID, String _name, String _vinNum, String _odometer, boolean _isActive, String _year, String _make, String _model, String _driveTrain){
+    public Vehicle(String _docID, String _name, String _vinNum, String _odometer, boolean _isActive, String _year, String _make, String _model, String _driveTrain,
+                   boolean _isAtLot){
         docID = _docID;
         name = _name;
         vinNum = _vinNum;
@@ -28,6 +29,7 @@ public class Vehicle implements Serializable {
         make = _make;
         model = _model;
         driveTrain = _driveTrain;
+        isAtLot = _isAtLot;
     }
 
     public String getDocID() {
@@ -72,5 +74,9 @@ public class Vehicle implements Serializable {
 
     public void updateLogs(ArrayList<MaintenanceLog> updatedLogs){
         logs = updatedLogs;
+    }
+
+    public boolean isAtLot() {
+        return isAtLot;
     }
 }

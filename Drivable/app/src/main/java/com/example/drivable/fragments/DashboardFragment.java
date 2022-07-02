@@ -160,6 +160,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         TextView activeNumTV = getActivity().findViewById(R.id.dashboard_tv_active_num);
         TextView inactiveNumTV = getActivity().findViewById(R.id.dashboard_tv_inactive_num);
 
+        TextView atLotTV = getActivity().findViewById(R.id.dashboard_tv_lot_num);
+        TextView notAtLotTV = getActivity().findViewById(R.id.dashboard_tv_shop_num);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(account.getDocID()).collection(FirebaseUtil.COLLECTION_VEHICLES).get()
@@ -172,6 +175,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 ArrayList<Vehicle> _vehicles = new ArrayList<>();
                 ArrayList<Vehicle> activeVehicles = new ArrayList<>();
                 ArrayList<Vehicle> inactiveVehicles = new ArrayList<>();
+                ArrayList<Vehicle> atLotVehicles = new ArrayList<>();
+                ArrayList<Vehicle> notAtLotVehicles = new ArrayList<>();
 
                 //get values
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
@@ -185,8 +190,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     String _make = doc.getString(FirebaseUtil.VEHICLES_FIELD_MAKE);
                     String _model = doc.getString(FirebaseUtil.VEHICLES_FIELD_MODEL);
                     String _driveTrain = doc.getString(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN);
+                    boolean _isAtLot = doc.getBoolean(FirebaseUtil.VEHICLES_FIELD_IS_AT_LOT);
 
-                    Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
+                    Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain, _isAtLot);
                     _vehicles.add(newVehicle);
 
                     if(newVehicle.isActive()){
@@ -194,6 +200,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     }
                     else{
                         inactiveVehicles.add(newVehicle);
+                    }
+
+                    if(newVehicle.isAtLot()){
+                        atLotVehicles.add(newVehicle);
+                    }
+                    else{
+                        notAtLotVehicles.add(newVehicle);
                     }
 
                     setMLogs(newVehicle, account);
@@ -206,6 +219,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 totalNumTV.setText(Integer.toString(account.getVehicles().size()));
                 activeNumTV.setText(Integer.toString(activeVehicles.size()));
                 inactiveNumTV.setText(Integer.toString(inactiveVehicles.size()));
+
+                atLotTV.setText(Integer.toString(atLotVehicles.size()));
+                notAtLotTV.setText(Integer.toString(notAtLotVehicles.size()));
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -283,13 +299,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                         for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
 
                             String logRefString = doc.getString(FirebaseUtil.LOGS_FIELD_REF);
+                            String name = doc.getString(FirebaseUtil.LOGS_FIELD_NAME);
+                            String date = doc.getString(FirebaseUtil.LOGS_FIELD_DATE);
                             String shopName = doc.getString(FirebaseUtil.LOGS_FIELD_SHOP_NAME);
                             String addressLine2 = doc.getString(FirebaseUtil.LOGS_FIELD_ADDRESS_LINE_2);
                             double lat = doc.getDouble(FirebaseUtil.LOGS_FIELD_LAT);
                             double lng = doc.getDouble(FirebaseUtil.LOGS_FIELD_LNG);
                             String report = doc.getString(FirebaseUtil.LOGS_FIELD_REPORT);
 
-                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), logRefString, shopName, addressLine2, lat, lng, report);
+                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), name, date, logRefString, shopName, addressLine2, lat, lng, report);
                             logs.add(newLog);
                         }
 

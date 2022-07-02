@@ -120,6 +120,8 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
             //go to add log screen
             Intent addLogIntent = new Intent(getContext(), AddLogActivity.class);
             addLogIntent.setAction(Intent.ACTION_RUN);
+            addLogIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, vehicleDetailsFragmentListener.getAccount());
+            addLogIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, vehicleDetailsFragmentListener.getVehicle());
 
             addLogActivityLauncher.launch(addLogIntent);
         }
@@ -195,8 +197,10 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
                                         String _make = doc.getString(FirebaseUtil.VEHICLES_FIELD_MAKE);
                                         String _model = doc.getString(FirebaseUtil.VEHICLES_FIELD_MODEL);
                                         String _driveTrain = doc.getString(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN);
+                                        boolean _isAtLot = doc.getBoolean(FirebaseUtil.VEHICLES_FIELD_IS_AT_LOT);
 
-                                        Vehicle vehicleUpdate = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
+                                        Vehicle vehicleUpdate = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model,
+                                                _driveTrain, _isAtLot);
                                         vehicleDetailsFragmentListener.updateVehicle(vehicleUpdate);
                                         String acronym = vehicleDetailsFragmentListener.getAccount().getCompanyAcronym();
 
@@ -272,14 +276,16 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
 
                                         for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
 
+                                            String name = doc.getString(FirebaseUtil.LOGS_FIELD_NAME);
                                             String logRefString = doc.getString(FirebaseUtil.LOGS_FIELD_REF);
+                                            String date = doc.getString(FirebaseUtil.LOGS_FIELD_DATE);
                                             String shopName = doc.getString(FirebaseUtil.LOGS_FIELD_SHOP_NAME);
                                             String addressLine2 = doc.getString(FirebaseUtil.LOGS_FIELD_ADDRESS_LINE_2);
                                             double lat = doc.getDouble(FirebaseUtil.LOGS_FIELD_LAT);
                                             double lng = doc.getDouble(FirebaseUtil.LOGS_FIELD_LNG);
                                             String report = doc.getString(FirebaseUtil.LOGS_FIELD_REPORT);
 
-                                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), logRefString, shopName, addressLine2, lat, lng, report);
+                                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), name, date, logRefString, shopName, addressLine2, lat, lng, report);
                                             logUpdate.add(newLog);
                                         }
 

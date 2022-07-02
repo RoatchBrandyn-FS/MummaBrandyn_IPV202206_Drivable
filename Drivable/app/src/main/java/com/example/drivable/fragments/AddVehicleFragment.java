@@ -263,6 +263,7 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_VIN_NUM, _vinNum);
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_ODOMETER, odometer);
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_IS_ACTIVE, _isActive);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_IS_AT_LOT, true);
 
         db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + account.getDocID() + "/" + FirebaseUtil.COLLECTION_VEHICLES).add(vehicle)
                 .addOnFailureListener(new OnFailureListener() {
