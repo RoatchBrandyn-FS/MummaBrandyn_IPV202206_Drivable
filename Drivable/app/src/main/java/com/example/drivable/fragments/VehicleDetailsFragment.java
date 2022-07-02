@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,18 +26,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
+import com.example.drivable.activities.AddLogActivity;
 import com.example.drivable.activities.AddVehicleActivity;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class VehicleDetailsFragment extends Fragment {
+import java.util.ArrayList;
+
+public class VehicleDetailsFragment extends Fragment implements View.OnClickListener {
 
     private final String TAG = "VehicleDetsFragment.TAG";
     private VehicleDetailsFragmentListener vehicleDetailsFragmentListener;
@@ -54,6 +61,7 @@ public class VehicleDetailsFragment extends Fragment {
         Vehicle getVehicle();
         Account getAccount();
         void updateVehicle(Vehicle vehicleUpdate);
+        void updateLogs(ArrayList<MaintenanceLog> logUpdate);
     }
 
     @Override
@@ -105,11 +113,25 @@ public class VehicleDetailsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View view) {
+
+        if(view.getId() == R.id.vehicle_details_ib_add_log){
+            //go to add log screen
+            Intent addLogIntent = new Intent(getContext(), AddLogActivity.class);
+            addLogIntent.setAction(Intent.ACTION_RUN);
+
+            addLogActivityLauncher.launch(addLogIntent);
+        }
+
+    }
+
     private void setViewElements(){
         Vehicle selectedVehicle = vehicleDetailsFragmentListener.getVehicle();
         String acronym = vehicleDetailsFragmentListener.getAccount().getCompanyAcronym();
 
         //get elements
+        ImageButton addLogBtn = getActivity().findViewById(R.id.vehicle_details_ib_add_log);
         TextView nameTV = getActivity().findViewById(R.id.vehicle_details_tv_name);
         TextView vinNumTV = getActivity().findViewById(R.id.vehicle_details_tv_vin_num);
         TextView odometerTV = getActivity().findViewById(R.id.vehicle_details_tv_odometer);
@@ -121,6 +143,7 @@ public class VehicleDetailsFragment extends Fragment {
         ImageView makeImage = getActivity().findViewById(R.id.vehicle_details_iv_make_image);
 
         //set values to elements
+        addLogBtn.setOnClickListener(this);
         String vehicleName = acronym + "-" + selectedVehicle.getName();
         nameTV.setText(vehicleName);
         String vinString = "Vin #: " + selectedVehicle.getVinNum();
@@ -223,5 +246,55 @@ public class VehicleDetailsFragment extends Fragment {
                 }
             }
     );
+
+    ActivityResultLauncher<Intent> addLogActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Log.i(TAG, "onActivityResult: Result Code = " + result.getResultCode());
+
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        ArrayList<MaintenanceLog> logUpdate = new ArrayList<>();
+                        Account account = vehicleDetailsFragmentListener.getAccount();
+                        Vehicle vehicle = vehicleDetailsFragmentListener.getVehicle();
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(account.getDocID()).collection(FirebaseUtil.COLLECTION_VEHICLES).document(vehicle.getDocID())
+                                .collection(FirebaseUtil.COLLECTION_LOGS).get().addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                                    }
+                                }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+
+                                            String logRefString = doc.getString(FirebaseUtil.LOGS_FIELD_REF);
+                                            String shopName = doc.getString(FirebaseUtil.LOGS_FIELD_SHOP_NAME);
+                                            String addressLine2 = doc.getString(FirebaseUtil.LOGS_FIELD_ADDRESS_LINE_2);
+                                            double lat = doc.getDouble(FirebaseUtil.LOGS_FIELD_LAT);
+                                            double lng = doc.getDouble(FirebaseUtil.LOGS_FIELD_LNG);
+                                            String report = doc.getString(FirebaseUtil.LOGS_FIELD_REPORT);
+
+                                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), logRefString, shopName, addressLine2, lat, lng, report);
+                                            logUpdate.add(newLog);
+                                        }
+
+                                        vehicle.updateLogs(logUpdate);
+                                        vehicleDetailsFragmentListener.updateLogs(logUpdate);
+
+                                    }
+                                });
+                    }
+                    else{
+                        Log.i(TAG, "onActivityResult: Error resetting data or Back button pressed");
+                    }
+
+                }
+            });
+
 
 }

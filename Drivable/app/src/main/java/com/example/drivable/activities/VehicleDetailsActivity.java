@@ -2,6 +2,9 @@ package com.example.drivable.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -9,11 +12,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Vehicle;
+import com.example.drivable.fragments.MLogsListFragment;
 import com.example.drivable.fragments.VehicleDetailsFragment;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.nio.channels.AcceptPendingException;
+import java.util.ArrayList;
 
 public class VehicleDetailsActivity extends AppCompatActivity implements VehicleDetailsFragment.VehicleDetailsFragmentListener {
 
@@ -37,6 +47,8 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
 
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container, VehicleDetailsFragment.newInstance()).commit();
 
+        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container_logs, MLogsListFragment.newInstance()).commit();
+
     }
 
     @Override
@@ -53,4 +65,11 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
     public void updateVehicle(Vehicle vehicleUpdate) {
         selectedVehicle = vehicleUpdate;
     }
+
+    @Override
+    public void updateLogs(ArrayList<MaintenanceLog> logUpdate) {
+        selectedVehicle.updateLogs(logUpdate);
+        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container_logs, MLogsListFragment.newInstance()).commit();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.drivable.data_objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Vehicle implements Serializable {
 
@@ -14,6 +15,7 @@ public class Vehicle implements Serializable {
     private final String make;
     private final String model;
     private final String driveTrain;
+    private ArrayList<MaintenanceLog> logs = new ArrayList<>();
     //later variables
 
     public Vehicle(String _docID, String _name, String _vinNum, String _odometer, boolean _isActive, String _year, String _make, String _model, String _driveTrain){
@@ -62,5 +64,13 @@ public class Vehicle implements Serializable {
 
     public String getDriveTrain() {
         return driveTrain;
+    }
+
+    public ArrayList<MaintenanceLog> getLogs() {
+        return logs;
+    }
+
+    public void updateLogs(ArrayList<MaintenanceLog> updatedLogs){
+        logs = updatedLogs;
     }
 }

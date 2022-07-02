@@ -87,4 +87,10 @@
     <string name="string_go_to_google_maps">Go to Google Maps</string>
     <string name="menu_title_edit_shop">Edit Shop</string>
     <string name="menu_title_delete_shop">Delete Shop</string>
+    <string name="title_maintenance_logs">Maintenance Logs</string>
+    <string name="string_empty_logs">No Logs Added</string>
+    <string name="title_new_maintenance_log">New Maintenance Log</string>
+    <string name="title_date">Date</string>
+    <string name="title_location">Location</string>
+    <string name="title_report">Report</string>
 </resources>

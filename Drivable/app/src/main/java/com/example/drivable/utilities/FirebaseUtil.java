@@ -22,6 +22,7 @@ public class FirebaseUtil {
     public static final String COLLECTION_ACCOUNTS = "accounts";
     public static final String COLLECTION_VEHICLES = "vehicles";
     public static final String COLLECTION_SHOPS = "shops";
+    public static final String COLLECTION_LOGS = "logs";
 
     //Accounts collections field keys
     public static final String ACCOUNTS_FIELD_USERID = "user_id";
@@ -52,6 +53,14 @@ public class FirebaseUtil {
     public static final String SHOPS_FIELD_IS_BODY = "is_body";
     public static final String SHOPS_FIELD_DESCRIPTION = "description";
     public static final String SHOPS_FIELD_LATLNG = "lat_lng";
+
+    //Maintenance Logs collection fields
+    public static final String LOGS_FIELD_REF= "image_ref";
+    public static final String LOGS_FIELD_SHOP_NAME = "shop_name";
+    public static final String LOGS_FIELD_ADDRESS_LINE_2 = "address_line_2";
+    public static final String LOGS_FIELD_LAT= "lat";
+    public static final String LOGS_FIELD_LNG= "lng";
+    public static final String LOGS_FIELD_REPORT= "report";
 
     //FirebaseStorage refs
     public static final String STORAGE_ACCOUNTS = "accounts/";

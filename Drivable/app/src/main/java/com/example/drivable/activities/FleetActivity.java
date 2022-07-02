@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.fragments.DashboardFragment;
 import com.example.drivable.fragments.FleetListFragment;
@@ -136,6 +137,8 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
 
                             Vehicle newVehicle = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model, _driveTrain);
                             _vehicles.add(newVehicle);
+
+                            setMLogs(newVehicle);
                         }
 
                         userAccount.updateVehicles(_vehicles);
@@ -194,6 +197,43 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
         });
 
     }
+
+    private void setMLogs(Vehicle vehicle){
+
+        ArrayList<MaintenanceLog> logs = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(userAccount.getDocID()).collection(FirebaseUtil.COLLECTION_VEHICLES).document(vehicle.getDocID())
+                .collection(FirebaseUtil.COLLECTION_LOGS).get().addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+
+                            String logRefString = doc.getString(FirebaseUtil.LOGS_FIELD_REF);
+                            String shopName = doc.getString(FirebaseUtil.LOGS_FIELD_SHOP_NAME);
+                            String addressLine2 = doc.getString(FirebaseUtil.LOGS_FIELD_ADDRESS_LINE_2);
+                            double lat = doc.getDouble(FirebaseUtil.LOGS_FIELD_LAT);
+                            double lng = doc.getDouble(FirebaseUtil.LOGS_FIELD_LNG);
+                            String report = doc.getString(FirebaseUtil.LOGS_FIELD_REPORT);
+
+                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), logRefString, shopName, addressLine2, lat, lng, report);
+                            logs.add(newLog);
+                        }
+
+                        vehicle.updateLogs(logs);
+
+                    }
+                });
+
+    }
+
 
     
 }

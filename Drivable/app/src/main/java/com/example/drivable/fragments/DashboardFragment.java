@@ -22,6 +22,7 @@ import com.example.drivable.activities.FleetActivity;
 import com.example.drivable.activities.ProfileActivity;
 import com.example.drivable.activities.ShopsActivity;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Shop;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.DateUtil;
@@ -194,6 +195,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     else{
                         inactiveVehicles.add(newVehicle);
                     }
+
+                    setMLogs(newVehicle, account);
+
                 }
 
                 account.updateVehicles(_vehicles);
@@ -258,5 +262,41 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                         account.updateShops(updatedShops);
                     }
                 });
+    }
+
+    private void setMLogs(Vehicle vehicle, Account account){
+
+        ArrayList<MaintenanceLog> logs = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(account.getDocID()).collection(FirebaseUtil.COLLECTION_VEHICLES).document(vehicle.getDocID())
+                .collection(FirebaseUtil.COLLECTION_LOGS).get().addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+
+                            String logRefString = doc.getString(FirebaseUtil.LOGS_FIELD_REF);
+                            String shopName = doc.getString(FirebaseUtil.LOGS_FIELD_SHOP_NAME);
+                            String addressLine2 = doc.getString(FirebaseUtil.LOGS_FIELD_ADDRESS_LINE_2);
+                            double lat = doc.getDouble(FirebaseUtil.LOGS_FIELD_LAT);
+                            double lng = doc.getDouble(FirebaseUtil.LOGS_FIELD_LNG);
+                            String report = doc.getString(FirebaseUtil.LOGS_FIELD_REPORT);
+
+                            MaintenanceLog newLog = new MaintenanceLog(doc.getId(), logRefString, shopName, addressLine2, lat, lng, report);
+                            logs.add(newLog);
+                        }
+
+                        vehicle.updateLogs(logs);
+
+                    }
+                });
+
     }
 }

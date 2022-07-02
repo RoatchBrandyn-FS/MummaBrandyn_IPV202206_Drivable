@@ -20,7 +20,6 @@ public class Account implements Serializable {
     private final String lastName;
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<Shop> shops = new ArrayList<>();
-    // *** MORE VARIABLES TO BE ADDED AFTER POC ***
 
     public Account (String _docID, String _accountImageRef, String _company, String _companyAcronym, String _firstName, String _lastName){
         docID = _docID;
