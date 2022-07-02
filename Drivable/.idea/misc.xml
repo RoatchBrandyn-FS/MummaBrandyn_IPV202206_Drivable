@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/activity_fleet.xml" value="0.23077290852864585" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/activity_shops.xml" value="0.3309557774607703" />
+        <entry key="app/src/main/res/layout/base_log_adapter.xml" value="0.28470102945963544" />
         <entry key="app/src/main/res/layout/base_shop_list_adapter.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/base_vehicle_adapter.xml" value="0.3404581705729167" />
         <entry key="app/src/main/res/layout/empty_stub_shops.xml" value="0.11979166666666667" />

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/ba_log_tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_text"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/ba_log_tv_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_status"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:maxLines="1"/>
+
+</LinearLayout>

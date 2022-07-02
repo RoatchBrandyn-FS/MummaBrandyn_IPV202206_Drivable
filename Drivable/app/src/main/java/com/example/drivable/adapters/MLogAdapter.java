@@ -1,10 +1,14 @@
 package com.example.drivable.adapters;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import com.example.drivable.R;
 import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Shop;
 
@@ -51,7 +55,39 @@ public class MLogAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder vh;
+        String logName = "Log #" + logs.get(position).getName();
+        String date = logs.get(position).getDate();
+
+        if (convertView == null){
+            convertView = LayoutInflater.from(context).inflate(R.layout.base_log_adapter, parent, false);
+            vh = new ViewHolder(convertView);
+            convertView.setTag(vh);
+        }
+        else{
+            vh = (ViewHolder) convertView.getTag();
+        }
+
+        if (logName != null && date != null){
+            // *** SET VIEWHOLDER HERE ***
+
+            Log.i(TAG, "getView: " + logName);
+            vh.ba_tv_main.setText(logName);
+            vh.ba_tv_date.setText(date);
+        }
+
+        return convertView;
+    }
+
+    //view holder
+    static class ViewHolder{
+        final TextView ba_tv_main;
+        final TextView ba_tv_date;
+
+        public ViewHolder(View _layout){
+            ba_tv_main = _layout.findViewById(R.id.ba_log_tv_main);
+            ba_tv_date = _layout.findViewById(R.id.ba_log_tv_date);
+        }
     }
 }

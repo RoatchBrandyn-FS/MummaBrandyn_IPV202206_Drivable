@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.nio.channels.AcceptPendingException;
 import java.util.ArrayList;
 
-public class VehicleDetailsActivity extends AppCompatActivity implements VehicleDetailsFragment.VehicleDetailsFragmentListener {
+public class VehicleDetailsActivity extends AppCompatActivity implements VehicleDetailsFragment.VehicleDetailsFragmentListener, MLogsListFragment.MLogListFragmentListener {
 
     Vehicle selectedVehicle;
     Account userAccount;
@@ -72,4 +72,8 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container_logs, MLogsListFragment.newInstance()).commit();
     }
 
+    @Override
+    public ArrayList<MaintenanceLog> getLogs() {
+        return selectedVehicle.getLogs();
+    }
 }
