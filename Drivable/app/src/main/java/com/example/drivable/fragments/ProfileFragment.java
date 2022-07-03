@@ -101,6 +101,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             Intent updateEmailIntent = new Intent(getContext(), UpdateEmailActivity.class);
             updateEmailIntent.setAction(Intent.ACTION_RUN);
+            updateEmailIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, profileFragmentListener.getAccount());
 
             startActivity(updateEmailIntent);
         }
@@ -109,6 +110,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             Intent updatePasswordIntent = new Intent(getContext(), UpdatePasswordActivity.class);
             updatePasswordIntent.setAction(Intent.ACTION_RUN);
+            updatePasswordIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, profileFragmentListener.getAccount());
 
             startActivity(updatePasswordIntent);
         }

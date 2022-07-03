@@ -93,4 +93,7 @@
     <string name="title_date">Date</string>
     <string name="title_location">Location</string>
     <string name="title_report">Report</string>
+    <string name="string_location">Location:</string>
+    <string name="string_report">Report:</string>
+    <string name="title_image">Image:</string>
 </resources>

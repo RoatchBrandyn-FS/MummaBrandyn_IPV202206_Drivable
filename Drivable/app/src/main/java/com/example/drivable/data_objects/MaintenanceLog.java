@@ -1,8 +1,9 @@
 package com.example.drivable.data_objects;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
-public class MaintenanceLog implements Serializable {
+public class MaintenanceLog implements Serializable, Comparable<MaintenanceLog>{
 
     private final String docID;
     private final String name;
@@ -62,5 +63,10 @@ public class MaintenanceLog implements Serializable {
 
     public String getReport() {
         return report;
+    }
+
+    @Override
+    public int compareTo(MaintenanceLog maintenanceLog) {
+        return this.name.compareTo(maintenanceLog.getName());
     }
 }

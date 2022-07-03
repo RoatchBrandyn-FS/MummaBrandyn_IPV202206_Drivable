@@ -3,12 +3,15 @@ package com.example.drivable.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
@@ -39,6 +42,8 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setTitle("Vehicle Details");
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
         Intent currentIntent = getIntent();
@@ -49,6 +54,29 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
 
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container_logs, MLogsListFragment.newInstance()).commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                if(getParentActivityIntent() == null){
+                    onBackPressed();
+                }
+                else{
+
+                    Intent homeIntent = new Intent(this, DashboardActivity.class);
+                    homeIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    NavUtils.navigateUpTo(this, homeIntent);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -75,5 +103,15 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
     @Override
     public ArrayList<MaintenanceLog> getLogs() {
         return selectedVehicle.getLogs();
+    }
+
+    @Override
+    public Vehicle getLogVehicle() {
+        return selectedVehicle;
+    }
+
+    @Override
+    public Account getLogAccount() {
+        return userAccount;
     }
 }

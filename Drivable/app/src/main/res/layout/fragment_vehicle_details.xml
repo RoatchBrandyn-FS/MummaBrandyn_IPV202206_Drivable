@@ -232,7 +232,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="175dp"
             android:orientation="vertical"
             android:background="@drawable/rounded_corners_all_5_white"
             android:elevation="20dp"
@@ -271,7 +271,9 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_container_logs"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="wrap_content"/>
+
+
 
         </LinearLayout>
 

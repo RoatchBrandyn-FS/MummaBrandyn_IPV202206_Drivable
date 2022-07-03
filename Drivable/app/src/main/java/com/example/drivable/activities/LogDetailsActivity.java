@@ -12,13 +12,15 @@ import androidx.core.app.NavUtils;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
-import com.example.drivable.fragments.UpdateEmailFragment;
-import com.example.drivable.fragments.UpdatePasswordFragment;
+import com.example.drivable.data_objects.MaintenanceLog;
+import com.example.drivable.data_objects.Vehicle;
+import com.example.drivable.fragments.LogDetailsFragment;
 import com.example.drivable.utilities.IntentExtrasUtil;
 
-public class UpdatePasswordActivity extends AppCompatActivity {
+public class LogDetailsActivity extends AppCompatActivity implements LogDetailsFragment.LogDetailsFragmentListener {
 
-    private final String TAG = "UpdateEmailActivity.TAG";
+    MaintenanceLog selectedLog;
+    Vehicle selectedVehicle;
     Account userAccount;
 
     @Override
@@ -28,17 +30,18 @@ public class UpdatePasswordActivity extends AppCompatActivity {
 
         //change Bar title to activity name
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("Update Password");
+        if(actionBar != null){
+            actionBar.setTitle("Log Details");
             actionBar.setHomeButtonEnabled(true);
             actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
-        //set account data
         Intent currentIntent = getIntent();
+        selectedVehicle = (Vehicle) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_VEHICLE);
+        selectedLog = (MaintenanceLog) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_LOG);
         userAccount = (Account) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_ACCOUNT);
 
-        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container, UpdatePasswordFragment.newInstance()).commit();
+        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container, LogDetailsFragment.newInstance()).commit();
 
     }
 
@@ -65,4 +68,18 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public MaintenanceLog getLog() {
+        return selectedLog;
+    }
+
+    @Override
+    public Vehicle getVehicle() {
+        return selectedVehicle;
+    }
+
+    @Override
+    public Account getAccount() {
+        return userAccount;
+    }
 }

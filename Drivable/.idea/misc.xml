@@ -27,10 +27,11 @@
         <entry key="app/src/main/res/layout/fragment_list_fleet.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_list_logs.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_list_shops.xml" value="0.12083333333333333" />
+        <entry key="app/src/main/res/layout/fragment_log_details.xml" value="0.3209233601888021" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2765757242838542" />
         <entry key="app/src/main/res/layout/fragment_shop_details.xml" value="0.1044001261393229" />
         <entry key="app/src/main/res/layout/fragment_shops_list.xml" value="0.12083333333333333" />
-        <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.10238342285156246" />
+        <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.2958770751953125" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25282491048177086" />
         <entry key="app/src/main/res/layout/fragment_update_email.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_update_password.xml" value="0.2825022379557292" />
