@@ -3,6 +3,7 @@ package com.example.drivable.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,12 @@ import com.example.drivable.activities.SignUpActivity;
 import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.NetworkUtil;
 import com.example.drivable.utilities.ToastUtil;
+import com.example.drivable.utilities.ValidationUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInFragment extends Fragment implements View.OnClickListener {
 
@@ -63,6 +71,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         signInBtn.setOnClickListener(this);
         Button signUpBtn = getActivity().findViewById(R.id.sign_in_btn_signup);
         signUpBtn.setOnClickListener(this);
+        TextView forgotPasswordTV = getActivity().findViewById(R.id.sign_in_tv_forgot_password);
+        forgotPasswordTV.setOnClickListener(this);
 
     }
 
@@ -102,6 +112,27 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             startActivity(signUpIntent);
 
         }
+        else if(view.getId() == R.id.sign_in_tv_forgot_password){
+
+
+
+            //get Edit Texts
+            EditText emailET = getActivity().findViewById(R.id.sign_in_et_email);
+
+            //Convert Edit Text Values to String
+            String emailString = emailET.getText().toString().trim();
+
+            if(emailString.isEmpty()){
+                AlertsUtil.emptyResetError(getContext());
+            }
+            else if(!ValidationUtil.isEmail(emailString)){
+                AlertsUtil.emailError(getContext());
+            }
+            else{
+                sendPasswordReset(emailString);
+            }
+
+        }
 
     }
 
@@ -112,6 +143,24 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
         signInFragmentListener.signIn(emailInput, passwordInput, getContext(), progressbarView, progressBar);
 
+    }
+
+    private void sendPasswordReset(String email){
+        FirebaseAuth updateAuth = FirebaseAuth.getInstance();
+
+        updateAuth.sendPasswordResetEmail(email)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: Email didn't send");
+
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.i(TAG, "onSuccess: Email sent");
+                    }
+                });
     }
 
 }

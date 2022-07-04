@@ -244,23 +244,6 @@ public class AlertsUtil {
 
     }
 
-    public static void editProfileNoChangeError(Context context){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Profile Unchanged");
-        builder.setMessage("Nothing changed from Profile. If make sure at least one of the fields or image is changed to update Profile.");
-        builder.setCancelable(false);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-
-        builder.show();
-
-    }
-
     public static void addVehicleAddEmptyError(Context context){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -470,6 +453,23 @@ public class AlertsUtil {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Vehicle Unassigned");
         builder.setMessage("Can't add logs to an Unassigned Vehicle.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void emptyResetError(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Email Field Empty");
+        builder.setMessage("Please fill the Email to send a password reset.");
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

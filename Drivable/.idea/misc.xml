@@ -24,6 +24,7 @@
         <entry key="app/src/main/res/layout/fragment_add_vehicle.xml" value="0.26155598958333337" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.2226140340169271" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.20774332682291669" />
+        <entry key="app/src/main/res/layout/fragment_forgot_password.xml" value="0.20334574381510417" />
         <entry key="app/src/main/res/layout/fragment_list_fleet.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_list_logs.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_list_shops.xml" value="0.12083333333333333" />

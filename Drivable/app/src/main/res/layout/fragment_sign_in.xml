@@ -76,6 +76,7 @@
                 android:maxLines="1"/>
 
             <TextView
+                android:id="@+id/sign_in_tv_forgot_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/string_forgot_password"
@@ -83,7 +84,9 @@
                 android:textAlignment="textEnd"
                 android:textSize="16sp"
                 android:textStyle="italic"
-                android:textColor="@color/blue_200"/>
+                android:textColor="@color/dark_blue"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
