@@ -246,13 +246,9 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             @Override
             public void onSuccess(Void unused) {
                 progressbarOff();
-                Intent signInIntent = new Intent(getContext(), SignInActivity.class);
-                signInIntent.setAction(Intent.ACTION_MAIN);
-                signInIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                FirebaseUtil.mAuth.signOut();
                 ToastUtil.accountUpdated(getContext());
-                startActivity(signInIntent);
+                getActivity().finish();
             }
         });
 

@@ -230,6 +230,10 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
         else if(vinNumString.length() < 17){
             AlertsUtil.addVehicleVinLengthError(getContext());
         }
+        else if( yearString.equals("NA") || makeString.equals("NOT ASSIGNED") || modelString.equals("NOT ASSIGNED") || driveTrainString.equals("NOT ASSIGNED")
+                || vinNumString.equals("NOT ASSIGNED") || odometerString.equals("NA")){
+            AlertsUtil.addVehicleReAssign(getContext());
+        }
         else{
 
 

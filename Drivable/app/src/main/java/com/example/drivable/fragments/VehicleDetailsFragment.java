@@ -1,7 +1,9 @@
 package com.example.drivable.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -31,8 +33,10 @@ import com.example.drivable.activities.AddVehicleActivity;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Vehicle;
+import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.example.drivable.utilities.ToastUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -42,6 +46,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VehicleDetailsFragment extends Fragment implements View.OnClickListener {
 
@@ -109,6 +115,28 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
             editVehicleActivityLauncher.launch(editVehicleIntent);
 
         }
+        else if(item.getTitle().equals("Restore Vehicle")){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Restore Vehicle?");
+            builder.setMessage("Do you want to un-assign this vehicle and set it blank until it's replaced?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    restoreVehicle();
+                }
+            });
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            builder.show();
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -117,13 +145,28 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
 
         if(view.getId() == R.id.vehicle_details_ib_add_log){
-            //go to add log screen
-            Intent addLogIntent = new Intent(getContext(), AddLogActivity.class);
-            addLogIntent.setAction(Intent.ACTION_RUN);
-            addLogIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, vehicleDetailsFragmentListener.getAccount());
-            addLogIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, vehicleDetailsFragmentListener.getVehicle());
 
-            addLogActivityLauncher.launch(addLogIntent);
+            Vehicle vehicle = vehicleDetailsFragmentListener.getVehicle();
+
+            if(vehicle.getYear().equals("NA") || vehicle.getMake().equals("NOT ASSIGNED") || vehicle.getModel().equals("NOT ASSIGNED") ||
+                    vehicle.getDriveTrain().equals("NOT ASSIGNED") || vehicle.getVinNum().equals("NOT ASSIGNED") || vehicle.getOdometer().equals("NA")){
+
+                AlertsUtil.vehicleDetailsUnAssignedLogs(getContext());
+
+            }
+            else{
+
+                //go to add log screen
+                Intent addLogIntent = new Intent(getContext(), AddLogActivity.class);
+                addLogIntent.setAction(Intent.ACTION_RUN);
+                addLogIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, vehicleDetailsFragmentListener.getAccount());
+                addLogIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, vehicleDetailsFragmentListener.getVehicle());
+
+                addLogActivityLauncher.launch(addLogIntent);
+
+            }
+
+
         }
 
     }
@@ -167,9 +210,82 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
         modelTV.setText(selectedVehicle.getModel());
         driveTrainTV.setText(selectedVehicle.getDriveTrain());
 
-        String uri = "@drawable/" + selectedVehicle.getMake().toLowerCase();
+        String uri = "";
+        if(selectedVehicle.getMake().toLowerCase().equals("NOT ASSIGNED")){
+            uri = "@drawable/image_placeholder";
+        }
+        else {
+            uri = "@drawable/" + selectedVehicle.getMake().toLowerCase();
+        }
+
         int imageResource = getContext().getResources().getIdentifier(uri, null, getContext().getPackageName());
         makeImage.setImageResource(imageResource);
+    }
+
+    private void restoreVehicle(){
+
+        Vehicle originalVehicle = vehicleDetailsFragmentListener.getVehicle();
+        Vehicle restoredVehicle = new Vehicle(originalVehicle.getDocID(), originalVehicle.getName(), "NOT ASSIGNED", "NA", false,
+                "NA", "NOT ASSIGNED", "NOT ASSIGNED", "NOT ASSIGNED", false);
+
+        updateVehicle(restoredVehicle);
+    }
+
+    private void updateVehicle(Vehicle newVehicle){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Account account = vehicleDetailsFragmentListener.getAccount();
+
+        Map<String, Object> vehicle = new HashMap<>();
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_YEAR, newVehicle.getYear());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_MAKE, newVehicle.getMake());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_MODEL, newVehicle.getModel());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN, newVehicle.getDriveTrain());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_VIN_NUM, newVehicle.getVinNum());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_ODOMETER, newVehicle.getOdometer());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_IS_ACTIVE, newVehicle.isActive());
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_IS_AT_LOT, newVehicle.isAtLot());
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + account.getDocID() + "/" + FirebaseUtil.COLLECTION_VEHICLES).document(newVehicle.getDocID())
+                .update(vehicle)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(e instanceof FirebaseFirestoreException){
+                            Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                        }
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + account.getDocID() + "/" + FirebaseUtil.COLLECTION_VEHICLES
+                                + "/" + newVehicle.getDocID() + "/" + FirebaseUtil.COLLECTION_LOGS).get().addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                if(e instanceof FirebaseFirestoreException){
+                                    Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                                }
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                                    db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + account.getDocID() + "/" + FirebaseUtil.COLLECTION_VEHICLES
+                                            + "/" + newVehicle.getDocID() + "/" + FirebaseUtil.COLLECTION_LOGS).document(doc.getId()).delete();
+                                }
+
+                                ToastUtil.vehicleUpdated(getContext());
+                                getActivity().finish();
+
+                            }
+                        });
+
+
+
+                    }
+                });
+
     }
 
     ActivityResultLauncher<Intent> editVehicleActivityLauncher = registerForActivityResult(

@@ -448,5 +448,38 @@ public class AlertsUtil {
 
     }
 
+    public static void addVehicleReAssign(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Assign All Values");
+        builder.setMessage("Because this vehicle was restored, make sure to fill out all values that are labeled NOT ASSIGNED");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
+
+    public static void vehicleDetailsUnAssignedLogs(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Vehicle Unassigned");
+        builder.setMessage("Can't add logs to an Unassigned Vehicle.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+
+    }
 
 }

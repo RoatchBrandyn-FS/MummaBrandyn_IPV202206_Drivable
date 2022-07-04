@@ -97,7 +97,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_company"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="30"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -132,7 +133,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_first_name"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="30"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -149,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_last_name"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="30"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -166,7 +169,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_email"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="100"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -183,7 +187,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_password"
                     android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="20"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -200,7 +205,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/string_confirm_password"
                     android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:maxLength="20"/>
 
                 <Button
                     android:id="@+id/signup_btn_signup"

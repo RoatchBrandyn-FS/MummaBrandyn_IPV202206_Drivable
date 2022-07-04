@@ -13,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,6 +35,7 @@ import com.example.drivable.utilities.IntentExtrasUtil;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
@@ -60,6 +65,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     public interface DashboardFragmentListener{
         Account getAccount();
+        void updateAccount(Account updatedAccount);
     }
 
     @Override
@@ -125,7 +131,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             profileIntent.setAction(Intent.ACTION_RUN);
             profileIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, dashboardFragmentListener.getAccount());
 
-            startActivity(profileIntent);
+            profileActivityLauncher.launch(profileIntent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -317,4 +323,58 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 });
 
     }
+
+    ActivityResultLauncher<Intent> profileActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    FirebaseUser user = FirebaseUtil.mAuth.getCurrentUser();
+                    final Account[] account = new Account[1];
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).get().addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FirebaseUtils.TAG", "onFailure: ");
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                                String _userID = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_USERID);
+
+                                if(_userID.equals(user.getUid())){
+                                    String _accountImageRef = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF);
+                                    String _company = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_COMPANY);
+                                    String _companyAcronym = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_COMPANY_ACRONYM);
+                                    String _firstName = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_FIRST_NAME);
+                                    String _lastName = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_LAST_NAME);
+
+                                    account[0] = new Account(doc.getId(), _accountImageRef, _company, _companyAcronym, _firstName, _lastName);
+                                }
+                            }
+
+                            dashboardFragmentListener.updateAccount(account[0]);
+
+                            //get text views to be changed
+                            TextView companyTV = getActivity().findViewById(R.id.dashboard_tv_company);
+                            TextView dateTV = getActivity().findViewById(R.id.dashboard_tv_date);
+
+                            //get current date
+                            String currentDate = DateUtil.setDateTime(new Date());
+
+                            //set text view values
+                            companyTV.setText(dashboardFragmentListener.getAccount().getCompany());
+                            dateTV.setText(currentDate);
+
+                        }
+
+                    });
+
+                }
+            });
+
+
 }

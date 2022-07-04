@@ -62,7 +62,14 @@ public class VehicleAdapter extends BaseAdapter {
         String vehicleName = vehicles.get(position).getName();
         String vehicleVin = vehicles.get(position).getVinNum();
         boolean isActive = vehicles.get(position).isActive();
-        String uri = "@drawable/" + vehicles.get(position).getMake().toLowerCase();
+        String uri = "";
+        if(vehicles.get(position).getMake().toLowerCase().equals("NOT ASSIGNED")){
+            uri = "@drawable/image_placeholder";
+        }
+        else {
+            uri = "@drawable/" + vehicles.get(position).getMake().toLowerCase();
+        }
+
         int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
 
         if (convertView == null){

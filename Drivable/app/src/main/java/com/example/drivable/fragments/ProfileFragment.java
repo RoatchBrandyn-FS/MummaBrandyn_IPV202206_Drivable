@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,6 +34,10 @@ import com.example.drivable.utilities.IntentExtrasUtil;
 import com.example.drivable.utilities.ToastUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -50,6 +58,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     public interface ProfileFragmentListener{
         Account getAccount();
+        void updateAccount(Account updatedAccount);
     }
 
     @Override
@@ -132,7 +141,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             editProfileIntent.setAction(Intent.ACTION_RUN);
             editProfileIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, profileFragmentListener.getAccount());
 
-            startActivity(editProfileIntent);
+            editProfileActivityLauncher.launch(editProfileIntent);
         }
         else if (item.getTitle().equals("Sign Out")){
             Intent signInIntent = new Intent(getContext(), SignInActivity.class);
@@ -169,5 +178,60 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         });
 
     }
+
+    ActivityResultLauncher<Intent> editProfileActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    FirebaseUser user = FirebaseUtil.mAuth.getCurrentUser();
+                    final Account[] account = new Account[1];
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).get().addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FirebaseUtils.TAG", "onFailure: ");
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                                String _userID = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_USERID);
+
+                                if(_userID.equals(user.getUid())){
+                                    String _accountImageRef = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_ACCOUNT_IMAGE_REF);
+                                    String _company = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_COMPANY);
+                                    String _companyAcronym = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_COMPANY_ACRONYM);
+                                    String _firstName = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_FIRST_NAME);
+                                    String _lastName = doc.getString(FirebaseUtil.ACCOUNTS_FIELD_LAST_NAME);
+
+                                    account[0] = new Account(doc.getId(), _accountImageRef, _company, _companyAcronym, _firstName, _lastName);
+                                }
+                            }
+
+                            profileFragmentListener.updateAccount(account[0]);
+
+                            //get elements
+                            Account userAccount = profileFragmentListener.getAccount();
+                            TextView companyTV = getActivity().findViewById(R.id.profile_tv_company);
+                            TextView acronymTV = getActivity().findViewById(R.id.profile_tv_acronym);
+                            TextView ownerTV = getActivity().findViewById(R.id.profile_tv_owner);
+                            TextView emailTV = getActivity().findViewById(R.id.profile_tv_email);
+
+                            //set elements with data
+                            loadImage(userAccount.getAccountImageRef());
+                            companyTV.setText(userAccount.getCompany());
+                            acronymTV.setText(userAccount.getCompanyAcronym());
+                            ownerTV.setText(userAccount.getName());
+                            emailTV.setText(FirebaseUtil.mAuth.getCurrentUser().getEmail());
+
+                        }
+
+                    });
+
+                }
+            });
 
 }
