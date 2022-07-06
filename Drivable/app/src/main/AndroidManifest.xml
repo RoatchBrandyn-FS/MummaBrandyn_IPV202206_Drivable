@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Drivable"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode" />
+
         <activity
             android:name=".activities.SignInActivity"
             android:exported="true"
@@ -94,6 +100,17 @@
             android:parentActivityName=".activities.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.BarcodeScannerActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+
             </intent-filter>
         </activity>
 

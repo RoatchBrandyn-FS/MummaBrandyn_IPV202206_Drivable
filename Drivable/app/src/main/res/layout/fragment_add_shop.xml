@@ -50,7 +50,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/title_name"
-                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
@@ -70,7 +69,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/string_line_1"
-                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
@@ -81,7 +79,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/string_line_2"
-                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 

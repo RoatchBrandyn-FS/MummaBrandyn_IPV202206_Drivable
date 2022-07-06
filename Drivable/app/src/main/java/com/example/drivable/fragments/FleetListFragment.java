@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
@@ -17,9 +21,17 @@ import com.example.drivable.R;
 import com.example.drivable.activities.VehicleDetailsActivity;
 import com.example.drivable.adapters.VehicleAdapter;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Vehicle;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +54,7 @@ public class FleetListFragment extends ListFragment {
     public interface FleetListFragmentListener{
         ArrayList<Vehicle> getVehiclesList();
         Account getAccount();
+        void updateVehicleEdits();
     }
 
     @Override
@@ -84,7 +97,8 @@ public class FleetListFragment extends ListFragment {
         vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, vehicles.get(position));
         vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, fleetListFragmentListener.getAccount());
 
-        startActivity(vehicleDetailsIntent);
+        vehicleDetailsActivityLauncher.launch(vehicleDetailsIntent);
+        //need activity launcher for vehicleDetails page
     }
 
     private void setFleetList(){
@@ -101,7 +115,15 @@ public class FleetListFragment extends ListFragment {
 
         setListAdapter(vehicleAdapter);
     }
-    
 
+    ActivityResultLauncher<Intent> vehicleDetailsActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    fleetListFragmentListener.updateVehicleEdits();
+
+                }
+            });
 
 }

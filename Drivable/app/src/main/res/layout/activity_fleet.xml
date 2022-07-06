@@ -54,13 +54,25 @@
 
         <EditText
             android:id="@+id/activity_fleet_searchbar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:hint="@string/string_search"
             android:background="@drawable/rounded_corners_all_2_white"
             android:padding="4dp"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:maxLength="17"/>
+
+        <ImageView
+            android:id="@+id/activity_fleet_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_qr_code_scanner_32"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
     </LinearLayout>
 
@@ -88,5 +100,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

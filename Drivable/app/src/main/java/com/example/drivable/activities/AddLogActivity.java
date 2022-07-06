@@ -2,6 +2,7 @@ package com.example.drivable.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,9 +13,22 @@ import androidx.core.app.NavUtils;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.Shop;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.fragments.AddLogFragment;
+import com.example.drivable.fragments.ShopsListFragment;
+import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class AddLogActivity extends AppCompatActivity implements AddLogFragment.AddLogFragmentListener {
 
@@ -75,4 +89,11 @@ public class AddLogActivity extends AppCompatActivity implements AddLogFragment.
     public Vehicle getVehicle() {
         return selectedVehicle;
     }
+
+
+
+
 }
+
+
+

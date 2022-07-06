@@ -1,15 +1,29 @@
 package com.example.drivable.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -32,7 +46,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FleetActivity extends AppCompatActivity implements FleetListFragment.FleetListFragmentListener, View.OnClickListener {
 
@@ -53,26 +70,20 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
             actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
         
-        //set fab button
+        //set fab button and image as button
         FloatingActionButton fab = findViewById(R.id.activity_fleet_fab);
         fab.setOnClickListener(this);
+        ImageView qrIV = findViewById(R.id.activity_fleet_qr_button);
+        qrIV.setOnClickListener(this);
 
         //set account data
         Intent currentIntent = getIntent();
         userAccount = (Account) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_ACCOUNT);
 
-        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
-                .replace(R.id.activity_fleet_container_list, FleetListFragment.newInstance()).commit();
+        updateVehicles();
 
         searchArray = userAccount.getVehicles();
         setSearchbar();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        updateVehicles();
     }
 
     @Override
@@ -121,7 +132,26 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
             addVehicleIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
             addVehicleIntent.putExtra(IntentExtrasUtil.EXTRA_IS_EDITING, false);
 
-            startActivity(addVehicleIntent);
+            addVehicleActivityLauncher.launch(addVehicleIntent);
+            //need activity launcher for addVehicle
+        }
+        
+        else if(view.getId() == R.id.activity_fleet_qr_button){
+            Log.i(TAG, "onClick: QR pressed");
+
+            ArrayList<Vehicle> vehicles = userAccount.getVehicles();
+            Collections.sort(vehicles, new Comparator<Vehicle>() {
+                @Override
+                public int compare(Vehicle v1, Vehicle v2) {
+                    return v1.getName().compareTo(v2.getName());
+                }
+            });
+
+            Intent scannerIntent = new Intent(this, BarcodeScannerActivity.class);
+            scannerIntent.setAction(Intent.ACTION_RUN);
+            scannerIntent.putExtra(IntentExtrasUtil.EXTRA_LIST_VEHICLES, vehicles);
+
+            barcodeScannerActivityLauncher.launch(scannerIntent);
         }
         
     }
@@ -134,6 +164,11 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
     @Override
     public Account getAccount() {
         return userAccount;
+    }
+
+    @Override
+    public void updateVehicleEdits() {
+        updateVehicles();
     }
 
     public void updateVehicles() {
@@ -172,8 +207,6 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
                         userAccount.updateVehicles(_vehicles);
                         searchArray = userAccount.getVehicles();
 
-                        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
-                                .replace(R.id.activity_fleet_container_list, FleetListFragment.newInstance()).commit();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -259,11 +292,50 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
 
                         vehicle.updateLogs(logs);
 
+                        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
+                                .replace(R.id.activity_fleet_container_list, FleetListFragment.newInstance()).commit();
                     }
                 });
 
     }
 
+    ActivityResultLauncher<Intent> addVehicleActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
 
-    
+                    if(result.getResultCode() == RESULT_OK){
+
+                        updateVehicles();
+
+                    }
+
+                }
+            });
+
+
+            ActivityResultLauncher < Intent > barcodeScannerActivityLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+
+                            if (result.getResultCode() == RESULT_OK) {
+
+                                Vehicle scannedVehicle = (Vehicle) result.getData().getSerializableExtra(IntentExtrasUtil.EXTRA_VEHICLE);
+
+                                Log.i(TAG, "onActivityResult: Vehicle Name: " + scannedVehicle.getName());
+
+
+                                Intent vehicleDetailsIntent = new Intent(getApplicationContext(), VehicleDetailsActivity.class);
+                                vehicleDetailsIntent.setAction(Intent.ACTION_RUN);
+                                vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_VEHICLE, scannedVehicle);
+                                vehicleDetailsIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
+
+                                startActivity(vehicleDetailsIntent);
+
+                            }
+
+                        }
+                    });
+
 }

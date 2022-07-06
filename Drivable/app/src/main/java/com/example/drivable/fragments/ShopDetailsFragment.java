@@ -124,8 +124,10 @@ public class ShopDetailsFragment extends Fragment implements View.OnClickListene
             Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             mapsIntent.setPackage("com.google.android.apps.maps");
 
+            startActivity(mapsIntent);
+
             if (mapsIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                startActivity(mapsIntent);
+
             }
         }
 

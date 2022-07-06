@@ -81,9 +81,7 @@ public class LogDetailsFragment extends Fragment implements View.OnClickListener
             Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             mapsIntent.setPackage("com.google.android.apps.maps");
 
-            if (mapsIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                startActivity(mapsIntent);
-            }
+            startActivity(mapsIntent);
 
         }
 

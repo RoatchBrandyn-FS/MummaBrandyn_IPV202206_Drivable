@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -21,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
+import com.example.drivable.data_objects.MaintenanceLog;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.utilities.AlertsUtil;
 import com.example.drivable.utilities.FirebaseUtil;
@@ -31,7 +36,10 @@ import com.google.common.net.InternetDomainName;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -281,6 +289,10 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         ToastUtil.vehicleAdded(getContext());
+
+                        Intent resultIntent = new Intent();
+                        getActivity().setResult(Activity.RESULT_OK, resultIntent);
+
                         getActivity().finish();
                     }
                 });
@@ -321,5 +333,7 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
                 });
 
     }
+
+
 
 }

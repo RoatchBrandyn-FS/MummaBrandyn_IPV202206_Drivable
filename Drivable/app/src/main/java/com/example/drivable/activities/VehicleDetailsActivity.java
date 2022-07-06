@@ -16,14 +16,20 @@ import androidx.core.app.NavUtils;
 import com.example.drivable.R;
 import com.example.drivable.data_objects.Account;
 import com.example.drivable.data_objects.MaintenanceLog;
+import com.example.drivable.data_objects.Shop;
 import com.example.drivable.data_objects.Vehicle;
 import com.example.drivable.fragments.MLogsListFragment;
 import com.example.drivable.fragments.VehicleDetailsFragment;
 import com.example.drivable.utilities.FirebaseUtil;
 import com.example.drivable.utilities.IntentExtrasUtil;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.nio.channels.AcceptPendingException;
 import java.util.ArrayList;
@@ -49,6 +55,7 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
         Intent currentIntent = getIntent();
         selectedVehicle = (Vehicle) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_VEHICLE);
         userAccount = (Account) currentIntent.getSerializableExtra(IntentExtrasUtil.EXTRA_ACCOUNT);
+        updateShops();
 
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragment_container, VehicleDetailsFragment.newInstance()).commit();
 
@@ -113,5 +120,53 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
     @Override
     public Account getLogAccount() {
         return userAccount;
+    }
+
+    private void updateShops(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(userAccount.getDocID()).collection(FirebaseUtil.COLLECTION_SHOPS).get()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.i(TAG, "onFailure: Error Code: " + ((FirebaseFirestoreException) e).getCode());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        ArrayList<Shop> updatedShops = new ArrayList<>();
+
+                        for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+
+                            Log.i("AddLog.TAG", "onSuccess: Loaded List");
+                            String name = doc.getString(FirebaseUtil.SHOPS_FIELD_NAME);
+                            String addressLine1 = doc.getString(FirebaseUtil.SHOPS_FIELD_ADDRESS_1);
+                            String addressLine2 = doc.getString(FirebaseUtil.SHOPS_FIELD_ADDRESS_2);
+                            boolean isMaintenance = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_MAINTENANCE);
+                            boolean isOilChange = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_OIL_CHANGE);
+                            boolean isTiresWheels = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_TIRES_WHEELS);
+                            boolean isGlass = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_GLASS);
+                            boolean isBody = doc.getBoolean(FirebaseUtil.SHOPS_FIELD_IS_BODY);
+                            String description = doc.getString(FirebaseUtil.SHOPS_FIELD_DESCRIPTION);
+
+                            GeoPoint geopoint = doc.getGeoPoint(FirebaseUtil.SHOPS_FIELD_LATLNG);
+                            double lat = geopoint.getLatitude();
+                            double lng = geopoint.getLongitude();
+                            LatLng latLng = new LatLng(lat, lng);
+
+                            Shop newShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
+                                    isGlass, isBody, latLng);
+
+                            updatedShops.add(newShop);
+
+                        }
+
+                        userAccount.updateShops(updatedShops);
+
+                    }
+                });
+
     }
 }

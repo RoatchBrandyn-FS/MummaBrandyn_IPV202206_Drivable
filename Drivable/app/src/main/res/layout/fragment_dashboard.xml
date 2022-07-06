@@ -85,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sample_number"
                 android:textSize="30sp"
-                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:maxLines="1"/>
@@ -253,7 +252,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sample_number"
                     android:textSize="30sp"
-                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:maxLines="1"/>

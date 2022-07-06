@@ -204,15 +204,21 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     if(newVehicle.isActive()){
                         activeVehicles.add(newVehicle);
                     }
-                    else{
-                        inactiveVehicles.add(newVehicle);
-                    }
+                    else if (!newVehicle.isActive() ) {
 
-                    if(newVehicle.isAtLot()){
-                        atLotVehicles.add(newVehicle);
-                    }
-                    else{
-                        notAtLotVehicles.add(newVehicle);
+                        inactiveVehicles.add(newVehicle);
+
+                        if(newVehicle.isAtLot() && !newVehicle.getDriveTrain().equals("NOT ASSIGNED") && !newVehicle.isAtLot()
+                                && !newVehicle.getMake().equals("NOT ASSIGNED") && !newVehicle.getModel().equals("NOT ASSIGNED") && !newVehicle.getOdometer().equals("NA")
+                                && !newVehicle.getVinNum().equals("NOT ASSIGNED") && !newVehicle.getYear().equals("NA")){
+                            atLotVehicles.add(newVehicle);
+                        }
+                        else if (!newVehicle.isAtLot() && !newVehicle.getDriveTrain().equals("NOT ASSIGNED") && !newVehicle.isAtLot()
+                                && !newVehicle.getMake().equals("NOT ASSIGNED") && !newVehicle.getModel().equals("NOT ASSIGNED") && !newVehicle.getOdometer().equals("NA")
+                                && !newVehicle.getVinNum().equals("NOT ASSIGNED") && !newVehicle.getYear().equals("NA")){
+                            notAtLotVehicles.add(newVehicle);
+                        }
+
                     }
 
                     setMLogs(newVehicle, account);

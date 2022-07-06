@@ -147,10 +147,13 @@ public class AddLogFragment extends Fragment implements View.OnClickListener {
         ArrayList<Shop> shops = addLogFragmentListener.getAccount().getShops();
         LatLng latLng = new LatLng(0,0 );
 
+        Log.i(TAG, "setSpinner: Shops Size Before = " + shops.size());
+
         Shop defaultShop = new Shop("", "Lot", "", "Main Fleet Location", "",false,
                 false, false, false, false, latLng);
 
         shops.add(0, defaultShop);
+        Log.i(TAG, "setSpinner: Shops Size After = " + shops.size());
 
         ShopListAdapter shopListAdapter = new ShopListAdapter(getContext(), shops);
         logSpinner.setAdapter(shopListAdapter);
