@@ -18,9 +18,10 @@ public class Shop implements Serializable {
     private final boolean isBody;
     private double lat;
     private double lng;
+    private final String nickname;
 
     public Shop(String _dcoID, String _name, String _addressLine1, String _addressLine2, String _description, boolean _isMaintenance, boolean _isOilChange, boolean _isTiresWheels,
-                boolean _isGlass, boolean _isBody, LatLng _latLng){
+                boolean _isGlass, boolean _isBody, LatLng _latLng, String _nickname){
         docID = _dcoID;
         name = _name;
         addressLine1 = _addressLine1;
@@ -33,6 +34,7 @@ public class Shop implements Serializable {
         isBody = _isBody;
         lat = _latLng.latitude;
         lng = _latLng.longitude;
+        nickname = _nickname;
     }
 
     public String getDocID() {
@@ -81,5 +83,9 @@ public class Shop implements Serializable {
 
     public double getLng() {
         return lng;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }

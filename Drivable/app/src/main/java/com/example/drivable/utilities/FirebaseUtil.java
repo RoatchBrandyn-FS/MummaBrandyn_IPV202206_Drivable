@@ -54,6 +54,7 @@ public class FirebaseUtil {
     public static final String SHOPS_FIELD_IS_BODY = "is_body";
     public static final String SHOPS_FIELD_DESCRIPTION = "description";
     public static final String SHOPS_FIELD_LATLNG = "lat_lng";
+    public static final String SHOPS_FIELD_NICKNAME = "nickname";
 
     //Maintenance Logs collection fields
     public static final String LOGS_FIELD_NAME = "name";

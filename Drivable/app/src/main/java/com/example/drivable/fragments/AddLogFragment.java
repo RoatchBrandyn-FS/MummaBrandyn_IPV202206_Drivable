@@ -150,7 +150,7 @@ public class AddLogFragment extends Fragment implements View.OnClickListener {
         Log.i(TAG, "setSpinner: Shops Size Before = " + shops.size());
 
         Shop defaultShop = new Shop("", "Lot", "", "Main Fleet Location", "",false,
-                false, false, false, false, latLng);
+                false, false, false, false, latLng, "Lot");
 
         shops.add(0, defaultShop);
         Log.i(TAG, "setSpinner: Shops Size After = " + shops.size());
@@ -217,7 +217,7 @@ public class AddLogFragment extends Fragment implements View.OnClickListener {
             LatLng latLng = new LatLng(0,0 );
 
             selectedShop = new Shop("", "Lot", "", "Main Fleet Location", "",false,
-                    false, false, false, false, latLng);
+                    false, false, false, false, latLng, "Lot");
         }
         else{
             selectedShop = addLogFragmentListener.getAccount().getShops().get(index);

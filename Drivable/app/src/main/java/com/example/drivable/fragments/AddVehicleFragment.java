@@ -92,7 +92,13 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
 
         //check for if editing
         if(addVehicleFragmentListener.isEditing()){
-            setElementValues();
+            Vehicle vehicle = addVehicleFragmentListener.getVehicle();
+            if(!vehicle.getDriveTrain().equals("NOT ASSIGNED") && !vehicle.getMake().equals("NOT ASSIGNED")
+                    && !vehicle.getModel().equals("NOT ASSIGNED") && !vehicle.getOdometer().equals("NA")
+                    && !vehicle.getVinNum().equals("NOT ASSIGNED") && !vehicle.getYear().equals("NA")){
+                setElementValues();
+            }
+
         }
 
     }
@@ -309,7 +315,7 @@ public class AddVehicleFragment extends Fragment implements View.OnClickListener
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_MAKE, _make);
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_MODEL, _model);
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN, _driveTrain);
-        vehicle.put(FirebaseUtil.VEHICLES_FIELD_VIN_NUM, _vinNum);
+        vehicle.put(FirebaseUtil.VEHICLES_FIELD_VIN_NUM, _vinNum.toUpperCase());
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_ODOMETER, odometer);
         vehicle.put(FirebaseUtil.VEHICLES_FIELD_IS_ACTIVE, _isActive);
 

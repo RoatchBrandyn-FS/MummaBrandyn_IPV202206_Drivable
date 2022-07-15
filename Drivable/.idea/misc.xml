@@ -20,7 +20,7 @@
         <entry key="app/src/main/res/layout/base_shop_list_adapter.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/base_vehicle_adapter.xml" value="0.3404581705729167" />
         <entry key="app/src/main/res/layout/empty_stub_shops.xml" value="0.11979166666666667" />
-        <entry key="app/src/main/res/layout/fragment_add_log.xml" value="0.34026745913818723" />
+        <entry key="app/src/main/res/layout/fragment_add_log.xml" value="0.19294842837646847" />
         <entry key="app/src/main/res/layout/fragment_add_shop.xml" value="0.3369397217928903" />
         <entry key="app/src/main/res/layout/fragment_add_vehicle.xml" value="0.26155598958333337" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.2226140340169271" />
@@ -33,7 +33,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2765757242838542" />
         <entry key="app/src/main/res/layout/fragment_shop_details.xml" value="0.1044001261393229" />
         <entry key="app/src/main/res/layout/fragment_shops_list.xml" value="0.12083333333333333" />
-        <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.2958770751953125" />
+        <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.17714233398437498" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25282491048177086" />
         <entry key="app/src/main/res/layout/fragment_update_email.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/fragment_update_password.xml" value="0.2825022379557292" />
@@ -43,6 +43,7 @@
         <entry key="app/src/main/res/layout/stub_empty_fleet.xml" value="0.29349619547526046" />
         <entry key="app/src/main/res/layout/stub_empty_logs.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/menu/menu_dashboard.xml" value="0.11979166666666667" />
+        <entry key="app/src/main/res/menu/menu_fleet.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/menu/menu_profile.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/menu/menu_shop_details.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/menu/menu_vehicle_details.xml" value="0.11979166666666667" />

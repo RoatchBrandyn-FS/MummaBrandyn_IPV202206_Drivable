@@ -2,6 +2,8 @@ package com.example.drivable.fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -101,15 +103,13 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             //chooseImageTV
             Log.i(TAG, "onClick: Choose Image Pressed");
 
-            Intent chooseImageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-            chooseImageActivityLauncher.launch(chooseImageIntent);
+            addImageAlert();
         }
         else if (view.getId() == R.id.signup_iv_camera){
             //cameraIcon
             Log.i(TAG, "onClick: Camera Icon Pressed");
 
-            checkCameraPermissions();
+            addImageAlert();
         }
     }
 
@@ -337,6 +337,38 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         passwordET.setText("");
         confirmPasswordET.setText("");
+    }
+
+    private void addImageAlert(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Add Photo");
+        builder.setMessage("How do you want to add photo?");
+        builder.setCancelable(true);
+        builder.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                //chooseImageTV
+                Log.i(TAG, "onClick: Choose Image Pressed");
+
+                Intent chooseImageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                chooseImageActivityLauncher.launch(chooseImageIntent);
+
+            }
+        });
+        builder.setNeutralButton("Camera", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                checkCameraPermissions();
+
+            }
+        });
+
+        builder.show();
+
     }
 
     private void checkCameraPermissions(){

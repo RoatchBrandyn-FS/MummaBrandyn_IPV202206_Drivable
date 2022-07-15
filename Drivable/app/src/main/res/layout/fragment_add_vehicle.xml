@@ -91,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/string_model"
                 android:inputType="text"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:digits="@string/digits_regular_with_numbers"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -108,7 +109,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/string_drivetrain"
                 android:inputType="text"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:digits="@string/digits_regular"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -126,7 +128,8 @@
                 android:hint="@string/sample_vin"
                 android:inputType="text"
                 android:maxLines="1"
-                android:maxLength="17"/>
+                android:maxLength="17"
+                android:digits="@string/digits_regular_with_numbers"/>
 
             <TextView
                 android:layout_width="match_parent"

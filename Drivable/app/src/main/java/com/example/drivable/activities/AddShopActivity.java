@@ -79,7 +79,6 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
                 actionBar.setTitle("Edit Shop");
             }
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
         setAddressSearch();
@@ -113,19 +112,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (item.getItemId()){
             case android.R.id.home:
-                if(getParentActivityIntent() == null){
-                    Log.i(TAG, "onOptionsItemSelected: Parent Activity not set in Manifest");
-                    onBackPressed();
-                }
-                else{
-                    Log.i(TAG, "onOptionsItemSelected: Should be sending to Dashboard");
-
-                    Intent homeIntent = new Intent(this, DashboardActivity.class);
-                    homeIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
-                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                    NavUtils.navigateUpTo(this, homeIntent);
-                }
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -212,6 +199,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         CheckBox glassCB = findViewById(R.id.add_shop_cb_glass);
         CheckBox bodyCB = findViewById(R.id.add_shop_cb_body);
         EditText descriptionET = findViewById(R.id.add_shop_et_description);
+        EditText nicknameET = findViewById(R.id.add_shop_et_nickname);
 
         //set elements
         nameTV.setText(selectedShop.getName());
@@ -224,6 +212,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         bodyCB.setChecked(selectedShop.isBody());
         descriptionET.setText(selectedShop.getDescription());
         latLng = new LatLng(selectedShop.getLat(), selectedShop.getLng());
+        nicknameET.setText(selectedShop.getNickname());
 
     }
 
@@ -239,6 +228,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         CheckBox glassCB = findViewById(R.id.add_shop_cb_glass);
         CheckBox bodyCB = findViewById(R.id.add_shop_cb_body);
         EditText descriptionET = findViewById(R.id.add_shop_et_description);
+        EditText nicknameET = findViewById(R.id.add_shop_et_nickname);
 
         //get strings and bools
         String nameString = nameTV.getText().toString().trim();
@@ -250,6 +240,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         boolean isGlass = glassCB.isChecked();
         boolean isBody = bodyCB.isChecked();
         String descriptionString = descriptionET.getText().toString().trim();
+        String nicknameString = nicknameET.getText().toString().trim();
 
 
         if(nameString.equals("Name") || addressLine1String.equals("Line 1") || addressLine2String.equals("Line 2") || latLng == null){
@@ -258,18 +249,18 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         else if(!isMaintenance && !isOilChange && !isTiresWheels && !isGlass && !isBody){
             AlertsUtil.addShopTypeMin(this);
         }
-        else if(descriptionString.isEmpty()){
+        else if(descriptionString.isEmpty() || nicknameString.isEmpty()){
             AlertsUtil.addShopDescriptionEmpty(this);
         }
         else {
             if(!isEditing){
                 addShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass,
-                        isBody, descriptionString);
+                        isBody, descriptionString, nicknameString);
             }
             else{
                 //editing
                 editShop(this, nameString, addressLine1String, addressLine2String, isMaintenance, isOilChange, isTiresWheels, isGlass,
-                        isBody, descriptionString);
+                        isBody, descriptionString, nicknameString);
             }
 
         }
@@ -278,7 +269,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void addShop(Context context, String _name, String _addressLine1, String _addressLine2, boolean _isMaintenance, boolean _isOilChange, boolean _isTiresWheels,
-                         boolean _isGlass, boolean _isBody, String _description){
+                         boolean _isGlass, boolean _isBody, String _description, String _nickname){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -292,6 +283,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         shop.put(FirebaseUtil.SHOPS_FIELD_IS_GLASS, _isGlass);
         shop.put(FirebaseUtil.SHOPS_FIELD_IS_BODY, _isBody);
         shop.put(FirebaseUtil.SHOPS_FIELD_DESCRIPTION, _description);
+        shop.put(FirebaseUtil.SHOPS_FIELD_NICKNAME, _nickname);
 
         double lat = latLng.latitude;
         double lng = latLng.longitude;
@@ -316,7 +308,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void editShop(Context context, String _name, String _addressLine1, String _addressLine2, boolean _isMaintenance, boolean _isOilChange, boolean _isTiresWheels,
-                          boolean _isGlass, boolean _isBody, String _description){
+                          boolean _isGlass, boolean _isBody, String _description, String _nickname){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> shop = new HashMap<>();
@@ -329,6 +321,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         shop.put(FirebaseUtil.SHOPS_FIELD_IS_GLASS, _isGlass);
         shop.put(FirebaseUtil.SHOPS_FIELD_IS_BODY, _isBody);
         shop.put(FirebaseUtil.SHOPS_FIELD_DESCRIPTION, _description);
+        shop.put(FirebaseUtil.SHOPS_FIELD_NICKNAME, _nickname);
 
         double lat = latLng.latitude;
         double lng = latLng.longitude;

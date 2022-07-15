@@ -141,7 +141,7 @@ public class ShopDetailsFragment extends Fragment implements View.OnClickListene
         TextView shopTypeTV = getActivity().findViewById(R.id.shop_details_tv_shop_type);
         TextView descriptionTV = getActivity().findViewById(R.id.shop_details_tv_description);
 
-        nameTV.setText(selectedShop.getName());
+        nameTV.setText(selectedShop.getNickname());
 
         String address = selectedShop.getAddressLine1() + "\n" + selectedShop.getAddressLine2();
         addressTV.setText(address);
@@ -219,8 +219,10 @@ public class ShopDetailsFragment extends Fragment implements View.OnClickListene
                                         double lng = geopoint.getLongitude();
                                         LatLng latLng = new LatLng(lat, lng);
 
+                                        String nickname = doc.getString(FirebaseUtil.SHOPS_FIELD_NICKNAME);
+
                                         Shop updatedShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
-                                                isGlass, isBody, latLng);
+                                                isGlass, isBody, latLng, nickname);
 
                                         TextView nameTV = getActivity().findViewById(R.id.shop_details_tv_name);
                                         TextView addressTV = getActivity().findViewById(R.id.shop_details_tv_address);

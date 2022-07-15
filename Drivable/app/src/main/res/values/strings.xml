@@ -8,6 +8,9 @@
         <item>Nissan</item>
     </string-array>
 
+    <string name="digits_regular">aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ</string>
+    <string name="digits_regular_with_numbers">aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789</string>
+
     <string name="app_name">Drivable</string>
     <string name="sample_text">SAMPLE TEXT</string>
     <string name="btn_sign_in">Sign In</string>
@@ -17,7 +20,7 @@
     <string name="string_forgot_password">Forgot Password?</string>
     <string name="title_new_account">New Account</string>
     <string name="string_company">Company</string>
-    <string name="string_image_hint">CHOOSE IMAGE</string>
+    <string name="string_image_hint">ADD IMAGE</string>
     <string name="string_company_acronym">Company Acronym</string>
     <string name="string_first_name">First Name</string>
     <string name="string_last_name">Last Name</string>
@@ -69,7 +72,7 @@
     <string name="btn_tittle_add">Add</string>
     <string name="sample_status">Status</string>
     <string name="btn_title_my_shops">My Shops</string>
-    <string name="title_inactive_locations">Inactive Locations</string>
+    <string name="title_inactive_locations">Out of Service Vehicles</string>
     <string name="title_shop">Shop</string>
     <string name="string_lot">Lot</string>
     <string name="string_empty_shops">No Shops Found</string>
@@ -97,4 +100,6 @@
     <string name="string_report">Report:</string>
     <string name="title_image">Image:</string>
     <string name="string_restore_vehicle">Restore Vehicle</string>
+    <string name="string_qr_code">QR Code</string>
+    <string name="string_nickname">Nickname</string>
 </resources>

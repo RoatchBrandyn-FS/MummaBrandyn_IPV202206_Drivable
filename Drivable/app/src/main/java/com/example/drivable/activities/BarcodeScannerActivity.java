@@ -9,6 +9,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -96,6 +99,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
 
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
+                progressbarOn();
 
                 Log.i(TAG, "receiveDetections: " + barcodes.valueAt(0).displayValue);
 
@@ -103,15 +107,38 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         searchVehicles(barcodes.valueAt(0).displayValue.trim());
+
+                        progressbarOff();
                     }
                 });
 
                 thread.start();
 
 
+
+
             }
         });
 
+    }
+
+    private void progressbarOn(){
+        RelativeLayout progressbarView = findViewById(R.id.barcode_progressbar_view);
+        ProgressBar progressBar = findViewById(R.id.barcode_progressbar);
+
+        progressbarView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        progressBar.setActivated(true);
+    }
+
+    private void progressbarOff(){
+        RelativeLayout progressbarView = findViewById(R.id.barcode_progressbar_view);
+        ProgressBar progressBar = findViewById(R.id.barcode_progressbar);
+
+        progressBar.setActivated(false);
+        progressbarView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void checkCameraPermissions() {

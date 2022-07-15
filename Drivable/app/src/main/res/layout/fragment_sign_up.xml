@@ -98,7 +98,8 @@
                     android:hint="@string/string_company"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:maxLength="30"/>
+                    android:maxLength="30"
+                    android:digits="@string/digits_regular"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -116,7 +117,8 @@
                     android:hint="@string/string_company_acronym"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:maxLength="4"/>
+                    android:maxLength="4"
+                    android:digits="@string/digits_regular"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -134,7 +136,8 @@
                     android:hint="@string/string_first_name"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:maxLength="30"/>
+                    android:maxLength="30"
+                    android:digits="@string/digits_regular"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -152,7 +155,8 @@
                     android:hint="@string/string_last_name"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:maxLength="30"/>
+                    android:maxLength="30"
+                    android:digits="@string/digits_regular"/>
 
                 <TextView
                     android:layout_width="match_parent"

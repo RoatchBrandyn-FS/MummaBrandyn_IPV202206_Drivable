@@ -155,8 +155,10 @@ public class ShopsActivity extends AppCompatActivity implements View.OnClickList
                             double lng = geopoint.getLongitude();
                             LatLng latLng = new LatLng(lat, lng);
 
+                            String nickname = doc.getString(FirebaseUtil.SHOPS_FIELD_NICKNAME);
+
                             Shop newShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
-                                    isGlass, isBody, latLng);
+                                    isGlass, isBody, latLng, nickname);
 
                             updatedShops.add(newShop);
 

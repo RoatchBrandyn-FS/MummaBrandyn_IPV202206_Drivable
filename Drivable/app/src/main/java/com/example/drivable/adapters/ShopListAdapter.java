@@ -57,7 +57,7 @@ public class ShopListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder vh;
-        String shopName = shops.get(position).getName();
+        String shopName = shops.get(position).getNickname();
         String shopAddressLine2 = shops.get(position).getAddressLine2();
 
         if (convertView == null){

@@ -33,7 +33,6 @@ public class AddVehicleActivity extends AppCompatActivity implements AddVehicleF
         if(actionBar != null){
             actionBar.setTitle("New Vehicle");
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
         //set account data
@@ -47,7 +46,6 @@ public class AddVehicleActivity extends AppCompatActivity implements AddVehicleF
             if(actionBar != null){
                 actionBar.setTitle("Edit Vehicle");
                 actionBar.setHomeButtonEnabled(true);
-                actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
             }
         }
 
@@ -63,17 +61,7 @@ public class AddVehicleActivity extends AppCompatActivity implements AddVehicleF
 
         switch (item.getItemId()){
             case android.R.id.home:
-                if(getParentActivityIntent() == null){
-                    onBackPressed();
-                }
-                else{
-
-                    Intent homeIntent = new Intent(this, DashboardActivity.class);
-                    homeIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
-                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                    NavUtils.navigateUpTo(this, homeIntent);
-                }
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

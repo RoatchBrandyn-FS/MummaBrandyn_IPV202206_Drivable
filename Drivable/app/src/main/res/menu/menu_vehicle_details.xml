@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/restore_vehicle"
+        android:icon="@drawable/ic_baseline_restore_32"
+        android:title="@string/string_restore_vehicle"
+        app:showAsAction="ifRoom"/>
+
+
     <item android:id="@+id/edit_vehicle"
         android:icon="@drawable/ic_baseline_edit_32"
         android:title="@string/menu_title_edit_vehicle"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/restore_vehicle"
-        android:icon="@drawable/ic_baseline_restore_32"
-        android:title="@string/string_restore_vehicle"
-        app:showAsAction="ifRoom"/>
+
 
 </menu>

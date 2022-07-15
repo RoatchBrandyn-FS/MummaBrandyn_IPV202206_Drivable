@@ -1,6 +1,7 @@
 package com.example.drivable.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraAccessException;
@@ -11,8 +12,10 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
@@ -83,7 +86,8 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
         updateVehicles();
 
         searchArray = userAccount.getVehicles();
-        setSearchbar();
+        //setSearchbar();
+
     }
 
     @Override
@@ -220,7 +224,7 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
 
     }
 
-    private void setSearchbar(){
+    /*private void setSearchbar(){
 
         EditText searchET = findViewById(R.id.activity_fleet_searchbar);
         searchET.addTextChangedListener(new TextWatcher() {
@@ -257,7 +261,7 @@ public class FleetActivity extends AppCompatActivity implements FleetListFragmen
             }
         });
 
-    }
+    }*/
 
     private void setMLogs(Vehicle vehicle){
 

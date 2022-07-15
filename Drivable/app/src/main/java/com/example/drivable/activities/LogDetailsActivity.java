@@ -33,7 +33,6 @@ public class LogDetailsActivity extends AppCompatActivity implements LogDetailsF
         if(actionBar != null){
             actionBar.setTitle("Log Details");
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
         Intent currentIntent = getIntent();
@@ -51,17 +50,7 @@ public class LogDetailsActivity extends AppCompatActivity implements LogDetailsF
 
         switch (item.getItemId()){
             case android.R.id.home:
-                if(getParentActivityIntent() == null){
-                    onBackPressed();
-                }
-                else{
-
-                    Intent homeIntent = new Intent(this, DashboardActivity.class);
-                    homeIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
-                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                    NavUtils.navigateUpTo(this, homeIntent);
-                }
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

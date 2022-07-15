@@ -49,7 +49,6 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
         if(actionBar != null){
             actionBar.setTitle("Vehicle Details");
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_baseline_home_32));
         }
 
         Intent currentIntent = getIntent();
@@ -69,17 +68,7 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
 
         switch (item.getItemId()){
             case android.R.id.home:
-                if(getParentActivityIntent() == null){
-                    onBackPressed();
-                }
-                else{
-
-                    Intent homeIntent = new Intent(this, DashboardActivity.class);
-                    homeIntent.putExtra(IntentExtrasUtil.EXTRA_ACCOUNT, userAccount);
-                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                    NavUtils.navigateUpTo(this, homeIntent);
-                }
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -156,8 +145,10 @@ public class VehicleDetailsActivity extends AppCompatActivity implements Vehicle
                             double lng = geopoint.getLongitude();
                             LatLng latLng = new LatLng(lat, lng);
 
+                            String nickname = doc.getString(FirebaseUtil.SHOPS_FIELD_NICKNAME);
+
                             Shop newShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
-                                    isGlass, isBody, latLng);
+                                    isGlass, isBody, latLng, nickname);
 
                             updatedShops.add(newShop);
 

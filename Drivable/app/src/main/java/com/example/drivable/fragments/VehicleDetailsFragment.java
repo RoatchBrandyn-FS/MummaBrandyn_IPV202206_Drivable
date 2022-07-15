@@ -380,6 +380,68 @@ public class VehicleDetailsFragment extends Fragment implements View.OnClickList
 
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+                        db.collection(FirebaseUtil.COLLECTION_ACCOUNTS + "/" + vehicleDetailsFragmentListener.getAccount().getDocID() + "/" +
+                                        FirebaseUtil.COLLECTION_VEHICLES + "/").document(vehicleDetailsFragmentListener.getVehicle().getDocID()).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot doc) {
+
+                                        String _name = doc.getString(FirebaseUtil.VEHICLES_FIELD_NAME);
+                                        String _vinNum = doc.getString(FirebaseUtil.VEHICLES_FIELD_VIN_NUM);
+                                        String _odometer = doc.getString(FirebaseUtil.VEHICLES_FIELD_ODOMETER);
+                                        boolean _isActive = doc.getBoolean(FirebaseUtil.VEHICLES_FIELD_IS_ACTIVE);
+                                        String _year = doc.getString(FirebaseUtil.VEHICLES_FIELD_YEAR);
+                                        String _make = doc.getString(FirebaseUtil.VEHICLES_FIELD_MAKE);
+                                        String _model = doc.getString(FirebaseUtil.VEHICLES_FIELD_MODEL);
+                                        String _driveTrain = doc.getString(FirebaseUtil.VEHICLES_FIELD_DRIVE_TRAIN);
+                                        boolean _isAtLot = doc.getBoolean(FirebaseUtil.VEHICLES_FIELD_IS_AT_LOT);
+
+                                        Vehicle vehicleUpdate = new Vehicle(doc.getId(), _name, _vinNum, _odometer, _isActive, _year, _make, _model,
+                                                _driveTrain, _isAtLot);
+                                        vehicleDetailsFragmentListener.updateVehicle(vehicleUpdate);
+                                        String acronym = vehicleDetailsFragmentListener.getAccount().getCompanyAcronym();
+
+                                        //get elements
+                                        TextView nameTV = getActivity().findViewById(R.id.vehicle_details_tv_name);
+                                        TextView vinNumTV = getActivity().findViewById(R.id.vehicle_details_tv_vin_num);
+                                        TextView odometerTV = getActivity().findViewById(R.id.vehicle_details_tv_odometer);
+                                        TextView statusTV = getActivity().findViewById(R.id.vehicle_details_tv_status);
+                                        TextView yearTV = getActivity().findViewById(R.id.vehicle_details_tv_year);
+                                        TextView makeTV = getActivity().findViewById(R.id.vehicle_details_tv_make);
+                                        TextView modelTV = getActivity().findViewById(R.id.vehicle_details_tv_model);
+                                        TextView driveTrainTV = getActivity().findViewById(R.id.vehicle_details_tv_drive_train);
+                                        ImageView makeImage = getActivity().findViewById(R.id.vehicle_details_iv_make_image);
+
+                                        //set values to elements
+                                        String vehicleName = acronym + "-" + vehicleUpdate.getName();
+                                        nameTV.setText(vehicleName);
+                                        String vinString = "Vin #: " + vehicleUpdate.getVinNum();
+                                        vinNumTV.setText(vinString);
+                                        String odometerString = "Odometer: " + vehicleUpdate.getOdometer();
+                                        odometerTV.setText(odometerString);
+                                        if(vehicleUpdate.isActive()){
+                                            String active = "Active";
+                                            statusTV.setText(active);
+                                            statusTV.setTextColor(getResources().getColor(R.color.green));
+                                        }
+                                        else{
+                                            String inactive = "Inactive";
+                                            statusTV.setText(inactive);
+                                            statusTV.setTextColor(getResources().getColor(R.color.red));
+                                        }
+                                        yearTV.setText(vehicleUpdate.getYear());
+                                        makeTV.setText(vehicleUpdate.getMake());
+                                        modelTV.setText(vehicleUpdate.getModel());
+                                        driveTrainTV.setText(vehicleUpdate.getDriveTrain());
+
+                                        String uri = "@drawable/" + vehicleUpdate.getMake().toLowerCase();
+                                        int imageResource = getContext().getResources().getIdentifier(uri, null, getContext().getPackageName());
+                                        makeImage.setImageResource(imageResource);
+
+                                    }
+                                });
+
+
                         db.collection(FirebaseUtil.COLLECTION_ACCOUNTS).document(account.getDocID()).collection(FirebaseUtil.COLLECTION_VEHICLES).document(vehicle.getDocID())
                                 .collection(FirebaseUtil.COLLECTION_LOGS).get().addOnFailureListener(new OnFailureListener() {
                                     @Override

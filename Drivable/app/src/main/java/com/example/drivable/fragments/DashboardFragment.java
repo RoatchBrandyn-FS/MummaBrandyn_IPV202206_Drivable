@@ -208,8 +208,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                         inactiveVehicles.add(newVehicle);
 
-                        if(newVehicle.isAtLot() && !newVehicle.getDriveTrain().equals("NOT ASSIGNED") && !newVehicle.isAtLot()
-                                && !newVehicle.getMake().equals("NOT ASSIGNED") && !newVehicle.getModel().equals("NOT ASSIGNED") && !newVehicle.getOdometer().equals("NA")
+                        if(newVehicle.isAtLot() && !newVehicle.getDriveTrain().equals("NOT ASSIGNED") && !newVehicle.getMake().equals("NOT ASSIGNED")
+                                && !newVehicle.getModel().equals("NOT ASSIGNED") && !newVehicle.getOdometer().equals("NA")
                                 && !newVehicle.getVinNum().equals("NOT ASSIGNED") && !newVehicle.getYear().equals("NA")){
                             atLotVehicles.add(newVehicle);
                         }
@@ -280,8 +280,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                             double lng = geopoint.getLongitude();
                             LatLng latLng = new LatLng(lat, lng);
 
+                            String nickname = doc.getString(FirebaseUtil.SHOPS_FIELD_NICKNAME);
+
                             Shop newShop = new Shop(doc.getId(), name, addressLine1, addressLine2, description, isMaintenance, isOilChange, isTiresWheels,
-                                    isGlass, isBody, latLng);
+                                    isGlass, isBody, latLng, nickname);
 
                             updatedShops.add(newShop);
 
